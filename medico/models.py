@@ -21,6 +21,7 @@ class Patient(models.Model):
 class Doctor(models.Model):
     doctor_name=models.CharField(max_length=50)
     contact=models.CharField(max_length=15)
+    specialization=models.CharField(max_length=25)
     gender=models.CharField(max_length=15)
     age=models.CharField(max_length=3)
     hospital_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='hospital_id')
