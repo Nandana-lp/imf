@@ -10,6 +10,7 @@
     <table border="1">
         <tr>
             <th>Name</th>
+            <th>specialization</th>
             <th>Contact</th>
             <th>Age</th>
             <th>Gender</th>
@@ -18,6 +19,7 @@
         {% for doctor in doctors %}
         <tr>
             <td>{{doctor.doctor_name}}</td>
+            <td>{{doctor.specialization}}</td>
             <td>{{doctor.contact}}</td>
             <td>{{doctor.age}}</td>
             <td>{{doctor.gender}}</td>

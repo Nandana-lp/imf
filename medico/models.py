@@ -13,6 +13,7 @@ class Hospital(models.Model):
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
 class Patient(models.Model):
     patient_name=models.CharField(max_length=100)
+    specialization=models.CharField(max_length=25)
     address=models.CharField(max_length=100)
     gender=models.CharField(max_length=15)
     date_of_birth=models.CharField(max_length=15)

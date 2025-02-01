@@ -20,4 +20,4 @@ class LoginCheckForm(forms.Form):
 class DoctorForm(forms.ModelForm):
     class Meta:
         model=Doctor
-        fields=['doctor_name','contact','gender','age']
+        fields=['doctor_name','contact','specialization','gender','age']
