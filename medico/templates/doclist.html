@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor list</title>
+</head>
+<body>
+    <h1>Doctors list</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Email</th>
+        </tr>
+        {% for doctor in doctors %}
+        <tr>
+            <td>{{doctor.doctor_name}}</td>
+            <td>{{doctor.contact}}</td>
+            <td>{{doctor.age}}</td>
+            <td>{{doctor.gender}}</td>
+            <td>{{doctor.login_id.email}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
