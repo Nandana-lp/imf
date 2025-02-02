@@ -96,3 +96,10 @@ def AddDoctor(request):
 def ViewDoctor(request):
     doctors=Doctor.objects.all()
     return render(request,'doclist.html',{'doctors':doctors}) 
+def search_doctor(request):
+    a = request.GET.get('specialization')  # Get search query from the URL
+    if a:
+        doctors = Doctor.objects.filter(specialization__icontains=a)  # Search by specialization
+    else:
+        doctors = Doctor.objects.all()  # No query, show all doctors
+    return render(request, 'doclist.html', {'doctors': doctors, 'query': a})

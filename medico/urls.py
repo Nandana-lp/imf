@@ -12,5 +12,5 @@ urlpatterns = [
     path('logincheck',views.LoginCheck,name='LoginCheck'),
     path('add_doc',views.AddDoctor,name='AddDoctor'),
     path('view_doc',views.ViewDoctor,name='ViewDoctor'),
-
+    path('search_doc', views.search_doctor, name='search_doctor'),
 ]
