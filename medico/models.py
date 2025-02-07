@@ -25,11 +25,11 @@ class Doctor(models.Model):
     specialization=models.CharField(max_length=25)
     gender=models.CharField(max_length=15)
     age=models.CharField(max_length=3)
-    hospital_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='hospital_id')
+    hospital_id=models.ForeignKey(Hospital,on_delete=models.CASCADE, null=True , blank=True, related_name='hospital_id')
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='login_id')
 class Appointment(models.Model):
     date=models.CharField(max_length=10)
     time=models.TimeField(auto_now=False)
     patient_id=models.ForeignKey(Login,on_delete=models.CASCADE,null=True,blank=True,related_name='patient_id')
-    doctor_id=models.ForeignKey(Login,on_delete=models.CASCADE,null=True,blank=True,related_name='doctor_id')
+    doctor_id=models.ForeignKey(Doctor,on_delete=models.CASCADE,null=True,blank=True,related_name='doctor_id')
     current_date=models.DateField(auto_now_add=True)

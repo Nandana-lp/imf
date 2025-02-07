@@ -18,7 +18,7 @@
             <td>{{doctor.doctor_name}}</td>
             <td>{{doctor.specialization}}</td>
             <td>{{doctor.gender}}</td>
-            <td><button type="submit"><a href="{% url 'patient_appointment' %}" style="text-decoration: none;">Take appointment</a></button></td>
+            <td><button type="submit"><a href="{% url 'patient_appointment' doctor.id %}" style="text-decoration: none;">Take appointment</a></button></td>
         </tr>
         {% endfor %}
     </table>

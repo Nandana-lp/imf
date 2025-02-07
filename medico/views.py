@@ -51,6 +51,9 @@ def HospitalHome(request):
 def PatientHome(request):
     return render(request,'patienthome.html')
 
+def DoctorHome(request):
+    return render(request,'doctorhome.html')
+
 def LoginCheck(request):
     if request.method=='POST':
         form=LoginCheckForm(request.POST)
@@ -76,6 +79,7 @@ def LoginCheck(request):
 def AddDoctor(request):
     id=request.session['hospital_id']
     user=get_object_or_404(Login,id=id)
+    hospital=get_object_or_404(Hospital,login_id=user)
     if request.method=='POST':
         form=DoctorForm(request.POST)  
         login=LoginForm(request.POST)
@@ -84,7 +88,7 @@ def AddDoctor(request):
             a.user_type='doctor'
             a.save()
             doc=form.save(commit=False)
-            doc.hospital_id=user
+            doc.hospital_id=hospital
             doc.login_id=a
             doc.save()
 
@@ -112,9 +116,9 @@ def search_doctor(request):
     else:
         return render(request, 'doc.html')
 
-def patient_appointment(request):
-    id=request.session['patient_id']
-    p=get_object_or_404(Login,id=id)
+def patient_appointment(request,id):
+    p_id=request.session['patient_id']
+    p=get_object_or_404(Login,id=p_id)
     q=get_object_or_404(Doctor,id=id)
     if request.method=='POST':
         form=AppointmentForm(request.POST)
