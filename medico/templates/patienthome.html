@@ -189,7 +189,6 @@
     <div class="sidebar">
         <h2>Patient Dashboard</h2>
         <a href="#profile">Profile</a>
-        <a href="#appointments">Appointments</a>
         <div class="dropdown">
             <a href="#services">Services</a>
             <div class="dropdown-content">
@@ -209,17 +208,12 @@
 
         <!-- Search Bar -->
         <div class="search-bar">
-            <form method="GET" action="{% url 'search_doctor' %}">
+            <form method="POST" action="{% url 'search_doctor' %}">
+                {% csrf_token %}
                 <input type="text" name="specialization" placeholder="Search doctors by specialization" value="{{ a }}">
-                <input type="submit" value="Search">
+                <input type="submit" name="search" value="Search">
             </form>
         </div>
-
-        <!-- Cards -->
-        <div class="card">
-            <h3>Upcoming Appointment</h3>
-        </div>
-
         <div class="card">
             <h3>Recent Test Results</h3>
         </div>
