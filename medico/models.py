@@ -33,3 +33,4 @@ class Appointment(models.Model):
     patient_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='paitent_id')
     doctor_id=models.ForeignKey(Doctor,on_delete=models.CASCADE, null=True , blank=True, related_name='doctor_id')
     current_date=models.DateField(auto_now_add=True)
+

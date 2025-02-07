@@ -69,6 +69,9 @@ def LoginCheck(request):
                   elif user.user_type=='patient':
                     request.session['patient_id']=user.id
                     return redirect('PatientHome')
+                  elif user.user_type=='doctor':
+                    request.session['doctor_id']=user.id
+                    return redirect('DoctorHome')
                 else:
                     messages.error(request,'Invalid Password')   
             except Login.DoesNotExist:
@@ -102,8 +105,6 @@ def ViewDoctor(request):
     return render(request,'doclist.html',{'doctors':doctors}) 
 
 def search_doctor(request):
-    
-    
     if request.method == "POST":
         query = request.POST.get('specialization')
         users = Doctor.objects.filter(
