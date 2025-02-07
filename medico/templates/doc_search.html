@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Doctors</title>
+    <style>
+        /* Same styles as before for the doctor list */
+    </style>
+</head>
+<body>
+    <h1>Doctor Search Results</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Contact</th>
+            <th>Email</th>
+        </tr>
+        {% for doctor in doctors %}
+        <tr>
+            <td>{{ doctor.name }}</td>
+            <td>{{ doctor.specialization }}</td>
+            <td>{{ doctor.contact }}</td>
+            <td>{{ doctor.email }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No doctors found matching your search.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

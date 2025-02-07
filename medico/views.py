@@ -96,3 +96,17 @@ def AddDoctor(request):
 def ViewDoctor(request):
     doctors=Doctor.objects.all()
     return render(request,'doclist.html',{'doctors':doctors}) 
+def search_doctor(request):
+    a = request.GET.get('specialization')  # Get search query from the URL
+    if a:
+        doctors = Doctor.objects.filter(specialization__icontains=a)  # Search by specialization
+    else:
+        doctors = Doctor.objects.all()  # No query, show all doctors
+    return render(request, 'doclist.html', {'doctors': doctors, 'query': a})
+def paitent_appointment(request):
+    id=request.session['paitent_id']
+    p=get_object_or_404(Login,id=id)
+    if request.method=='POST':
+        form=PaitentForm(request.POST)
+        if form.is_valid():
+            a=form.save(commit=False)
