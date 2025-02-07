@@ -3,17 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>Document</title>
+=======
+    <title>Appointments</title>
+>>>>>>> bc35fef4f95bddcbe2e16292e0958fa493c59a81
 </head>
 <body>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
+<<<<<<< HEAD
         <button type="submit">submit</button>
     </form>
     {% if message in message %}
     <li>
         {}
     </li>
+=======
+        <button type="submit">Submit</button>
+    </form>
+    {% if messages %}
+    <ul>
+        {%for message in messages %}
+        <li>
+            {{message}}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+>>>>>>> bc35fef4f95bddcbe2e16292e0958fa493c59a81
 </body>
 </html>

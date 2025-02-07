@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Doctors</h1>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Specialization</th>
+            <th>Gender</th>
+        </tr>
+        {% for doctor in users %}
+        <tr>
+            <td>{{doctor.doctor_name}}</td>
+            <td>{{doctor.specialization}}</td>
+            <td>{{doctor.gender}}</td>
+            <td><button type="submit"><a href="{% url 'patient_appointment' doctor.id %}" style="text-decoration: none;">Take appointment</a></button></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

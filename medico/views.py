@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm
+from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm
 from django.contrib import messages
-from .models import Hospital ,Login ,Patient,Doctor
+from .models import Hospital ,Login ,Patient,Doctor,Appointment
+from django.db.models import Q
 
 def index(request):
     return render(request,'index.html')
@@ -50,6 +51,9 @@ def HospitalHome(request):
 def PatientHome(request):
     return render(request,'patienthome.html')
 
+def DoctorHome(request):
+    return render(request,'doctorhome.html')
+
 def LoginCheck(request):
     if request.method=='POST':
         form=LoginCheckForm(request.POST)
@@ -75,7 +79,11 @@ def LoginCheck(request):
 def AddDoctor(request):
     id=request.session['hospital_id']
     user=get_object_or_404(Login,id=id)
+<<<<<<< HEAD
     hospital=get_object_or_404(hospital,id=id)
+=======
+    hospital=get_object_or_404(Hospital,login_id=user)
+>>>>>>> bc35fef4f95bddcbe2e16292e0958fa493c59a81
     if request.method=='POST':
         form=DoctorForm(request.POST)  
         login=LoginForm(request.POST)
@@ -97,21 +105,38 @@ def AddDoctor(request):
 def ViewDoctor(request):
     doctors=Doctor.objects.all()
     return render(request,'doclist.html',{'doctors':doctors}) 
+
 def search_doctor(request):
-    a = request.GET.get('specialization')  # Get search query from the URL
-    if a:
-        doctors = Doctor.objects.filter(specialization__icontains=a)  # Search by specialization
+    
+    
+    if request.method == "POST":
+        query = request.POST.get('specialization')
+        users = Doctor.objects.filter(
+                Q(doctor_name__icontains=query) |
+                Q(specialization__icontains=query) |
+                Q(gender__icontains=query)
+        )
+        return render(request, 'doc.html', {'users':users})
     else:
+<<<<<<< HEAD
         doctors = Doctor.objects.all()  # No query, show all doctors
     return render(request, 'doclist.html', {'doctors': doctors, 'query': a})
 def paitent_appointment(request):
     p_id=request.session['paitent_id']
     p=get_object_or_404(Login,id=id)
+=======
+        return render(request, 'doc.html')
+
+def patient_appointment(request,id):
+    p_id=request.session['patient_id']
+    p=get_object_or_404(Login,id=p_id)
+>>>>>>> bc35fef4f95bddcbe2e16292e0958fa493c59a81
     q=get_object_or_404(Doctor,id=id)
     if request.method=='POST':
         form=AppointmentForm(request.POST)
         if form.is_valid():
             a=form.save(commit=False)
+<<<<<<< HEAD
             a.paitent_id=p
             a.doctor_id=q
             a.save()
@@ -120,4 +145,15 @@ def paitent_appointment(request):
     else:
         form=AppointmentForm()
     return render(request,'appointment.html',{'form':form})
+=======
+            a.patient_id=p
+            a.doctor_id=q
+            a.save()
+            messages.success(request,"Requested for Appointment")
+            return redirect('PatientHome')
+    else:
+        form=AppointmentForm()
+    return render(request,'appointment.html',{'form':form})   
+    
+>>>>>>> bc35fef4f95bddcbe2e16292e0958fa493c59a81
 
