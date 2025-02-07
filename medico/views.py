@@ -75,6 +75,7 @@ def LoginCheck(request):
 def AddDoctor(request):
     id=request.session['hospital_id']
     user=get_object_or_404(Login,id=id)
+    hospital=get_object_or_404(hospital,id=id)
     if request.method=='POST':
         form=DoctorForm(request.POST)  
         login=LoginForm(request.POST)
@@ -83,7 +84,7 @@ def AddDoctor(request):
             a.user_type='doctor'
             a.save()
             doc=form.save(commit=False)
-            doc.hospital_id=user
+            doc.hospital_id=hospital
             doc.login_id=a
             doc.save()
 
@@ -104,9 +105,19 @@ def search_doctor(request):
         doctors = Doctor.objects.all()  # No query, show all doctors
     return render(request, 'doclist.html', {'doctors': doctors, 'query': a})
 def paitent_appointment(request):
-    id=request.session['paitent_id']
+    p_id=request.session['paitent_id']
     p=get_object_or_404(Login,id=id)
+    q=get_object_or_404(Doctor,id=id)
     if request.method=='POST':
-        form=PaitentForm(request.POST)
+        form=AppointmentForm(request.POST)
         if form.is_valid():
             a=form.save(commit=False)
+            a.paitent_id=p
+            a.doctor_id=q
+            a.save()
+            messages.success(request,"Requested For Appointment")
+            return redirect('PaitentHome')
+    else:
+        form=AppointmentForm()
+    return render(request,'appointment.html',{'form':form})
+
