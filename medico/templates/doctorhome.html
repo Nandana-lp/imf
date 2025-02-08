@@ -16,7 +16,7 @@
 
         .sidebar {
             width: 200px;
-            background-color: #2c3e50;
+            background-color: #0778e8;
             color: white;
             display: flex;
             flex-direction: column;
@@ -47,7 +47,7 @@
         }
 
         .sidebar a:hover {
-            background-color: #34495e;
+            background-color: #0a72da;
             transform: translateX(5px);
         }
 
@@ -58,7 +58,7 @@
         .dropdown-content {
             display: none;
             flex-direction: column;
-            background-color: #34495e;
+            background-color: #1077df;
             border-radius: 5px;
             overflow: hidden;
             transition: all 0.3s ease-in-out;
@@ -87,7 +87,7 @@
         }
 
         header {
-            background-color: #2c3e50;
+            background-color: #0d76de;
             color: white;
             padding: 20px;
             text-align: center;
@@ -209,6 +209,7 @@
                         <th>Patient Name</th>
                         <th>Appointment Date</th>
                         <th>Appointment Time</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -217,6 +218,7 @@
                             <td>{{ appointment.patient_id.patient_name }}</td>
                             <td>{{ appointment.date }}</td>
                             <td>{{ appointment.time }}</td>
+                            <td>{{ appointment.status }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
