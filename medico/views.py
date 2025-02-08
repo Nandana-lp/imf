@@ -134,12 +134,15 @@ def patient_appointment(request, id):
     login = get_object_or_404(Login, id=p_id)
     patient = get_object_or_404(Patient, login_id=login)  # Correctly get the Patient instance
     doctor = get_object_or_404(Doctor, id=id)
+    a = get_object_or_404(Appointment, doctor_id=doctor)
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
             appointment.patient_id = patient  # Assign the Patient instance
-            appointment.doctor_id = doctor
+            appointment.doctor_id = doctor 
+            a.status="confirmed"
+            a.save()
             appointment.save()
             messages.success(request, "Requested for Appointment")
             return redirect('PatientHome')
@@ -161,6 +164,7 @@ def edit_appointment(request, appointment_id):
 
 def cancel_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    appointment.delete()
+    appointment.status="cancelled"
+    appointment.save()
     messages.success(request, "Appointment cancelled successfully")
     return redirect('PatientHome')
