@@ -28,9 +28,10 @@ class Doctor(models.Model):
     hospital_id=models.ForeignKey(Hospital,on_delete=models.CASCADE, null=True , blank=True, related_name='hospital_id')
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='login_id')
 class Appointment(models.Model):
-    date=models.CharField(max_length=15)
-    time=models.TimeField(auto_now=False)
-    patient_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='paitent_id')
-    doctor_id=models.ForeignKey(Doctor,on_delete=models.CASCADE, null=True , blank=True, related_name='doctor_id')
-    current_date=models.DateField(auto_now_add=True)
+    date = models.DateTimeField(editable=True)
+    time = models.TimeField(auto_now=False)
+    patient_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True, related_name='paitent_id')
+    doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True, related_name='doctor_id')
+    current_date = models.DateField(auto_now_add=True)
+
 

@@ -120,8 +120,8 @@ def search_doctor(request):
 
 def patient_appointment(request,id):
     p_id=request.session['patient_id']
-    p=get_object_or_404(Login,id=p_id)
-    q=get_object_or_404(Doctor,id=id)
+    p=get_object_or_404(Login,id=doctor_id)
+    q=get_object_or_404(Doctor,id=p_id)
     if request.method=='POST':
         form=AppointmentForm(request.POST)
         if form.is_valid():

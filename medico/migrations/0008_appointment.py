@@ -23,11 +23,6 @@ class Migration(migrations.Migration):
                 ('current_date', models.DateField(auto_now_add=True)),
                 ('doctor_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='doctor_id', to='medico.login')),
                 ('patient_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='paitent_id', to='medico.login')),
-                ('date', models.DateField(max_length=10)),
-                ('time', models.TimeField()),
-                ('current_date', models.DateField(auto_now_add=True)),
-                ('doctor_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='doctor_id', to='medico.login')),
-                ('patient_id', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='patient_id', to='medico.login')),
             ],
         ),
     ]
