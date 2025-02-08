@@ -131,29 +131,6 @@ def search_doctor(request):
     return render(request, 'doclist.html', {'doctors': doctors, 'query': a})
 
 
-<<<<<<< HEAD
-def patient_appointment(request,id):
-    p_id=request.session['patient_id']
-    p=get_object_or_404(Login,id=doctor_id)
-    q=get_object_or_404(Doctor,id=p_id)
-    if request.method=='POST':
-        form=AppointmentForm(request.POST)
-        if form.is_valid():
-            a=form.save(commit=False)
-            a.paitent_id=p
-            a.doctor_id=q
-            a.save()
-            messages.success(request,"Requested For Appointment")
-            return redirect('PaitentHome')
-    else:
-        form=AppointmentForm()
-    return render(request,'appointment.html',{'form':form})
-
-             
-    
-
-
-=======
 def patient_appointment(request, id):
     p_id = request.session.get('patient_id')
     login = get_object_or_404(Login, id=p_id)
@@ -189,4 +166,3 @@ def cancel_appointment(request, appointment_id):
     appointment.delete()
     messages.success(request, "Appointment cancelled successfully")
     return redirect('PatientHome')
->>>>>>> 07f7c58de2c66ec8f021c0e29443e31880e0a111
