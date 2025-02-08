@@ -28,31 +28,44 @@ def HospitalReg(request):
         login=LoginForm()
     return render(request,'registration.html',{'form':form,'login':login})
 def PatientReg(request):
-    if request.method=="POST":
-        form=PatientForm(request.POST)
-        login=LoginForm(request.POST)
+    if request.method == "POST":
+        form = PatientForm(request.POST)
+        login = LoginForm(request.POST)
         if form.is_valid() and login.is_valid():
-            user=login.save(commit=False)
-            user.user_type='patient'
+            user = login.save(commit=False)
+            user.user_type = 'patient'
             user.save()
-            a=form.save(commit=False)
-            a.login_id=user
+            a = form.save(commit=False)
+            a.login_id = user
             a.save()
-            messages.success(request,"Patient registered successfull")
+            messages.success(request, "Patient registered successfully")
     else:
-        form=PatientForm()
-        login=LoginForm()
-    return render(request,'registration.html',{'form':form,'login':login})
+        form = PatientForm()
+        login = LoginForm()
+    return render(request, 'registration.html', {'form': form, 'login': login})
 
 
 def HospitalHome(request):
     return render(request,'hospital.html')
 
 def PatientHome(request):
-    return render(request,'patienthome.html')
+    patient_id = request.session.get('patient_id')
+    if not patient_id:
+        return redirect('login')
+    login = get_object_or_404(Login, id=patient_id)
+    patient = get_object_or_404(Patient, login_id=login)
+    appointments = Appointment.objects.filter(patient_id=patient)
+    return render(request, 'patienthome.html', {'appointments': appointments})
+
 
 def DoctorHome(request):
-    return render(request,'doctorhome.html')
+    doctor_id = request.session.get('doctor_id')
+    if not doctor_id:
+        return redirect('login')
+    login = get_object_or_404(Login, id=doctor_id)
+    doctor = get_object_or_404(Doctor, login_id=login)
+    appointments = Appointment.objects.filter(doctor_id=doctor)
+    return render(request, 'doctorhome.html', {'appointments': appointments})
 
 def LoginCheck(request):
     if request.method=='POST':
@@ -71,7 +84,7 @@ def LoginCheck(request):
                     return redirect('PatientHome')
                   elif user.user_type=='doctor':
                     request.session['doctor_id']=user.id
-                    return redirect('DoctorHome')
+                    return redirect('doctor_home')
                 else:
                     messages.error(request,'Invalid Password')   
             except Login.DoesNotExist:
@@ -118,6 +131,7 @@ def search_doctor(request):
     return render(request, 'doclist.html', {'doctors': doctors, 'query': a})
 
 
+<<<<<<< HEAD
 def patient_appointment(request,id):
     p_id=request.session['patient_id']
     p=get_object_or_404(Login,id=doctor_id)
@@ -139,3 +153,40 @@ def patient_appointment(request,id):
     
 
 
+=======
+def patient_appointment(request, id):
+    p_id = request.session.get('patient_id')
+    login = get_object_or_404(Login, id=p_id)
+    patient = get_object_or_404(Patient, login_id=login)  # Correctly get the Patient instance
+    doctor = get_object_or_404(Doctor, id=id)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.patient_id = patient  # Assign the Patient instance
+            appointment.doctor_id = doctor
+            appointment.save()
+            messages.success(request, "Requested for Appointment")
+            return redirect('PatientHome')
+    else:
+        form = AppointmentForm()
+    return render(request, 'appointment.html', {'form': form})
+
+def edit_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Appointment updated successfully")
+            return redirect('PatientHome')
+    else:
+        form = AppointmentForm(instance=appointment)
+    return render(request, 'edit_appointment.html', {'form': form})
+
+def cancel_appointment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    appointment.delete()
+    messages.success(request, "Appointment cancelled successfully")
+    return redirect('PatientHome')
+>>>>>>> 07f7c58de2c66ec8f021c0e29443e31880e0a111
