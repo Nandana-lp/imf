@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Dashboard</title>
-    <style>                                                                                                                                                   
+    <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -16,7 +16,7 @@
 
         .sidebar {
             width: 200px;
-            background-color: #2c3e50;
+            background-color: #0778e8;
             color: white;
             display: flex;
             flex-direction: column;
@@ -47,7 +47,7 @@
         }
 
         .sidebar a:hover {
-            background-color: #34495e;
+            background-color: #0a72da;
             transform: translateX(5px);
         }
 
@@ -58,7 +58,7 @@
         .dropdown-content {
             display: none;
             flex-direction: column;
-            background-color: #34495e;
+            background-color: #1077df;
             border-radius: 5px;
             overflow: hidden;
             transition: all 0.3s ease-in-out;
@@ -72,11 +72,11 @@
             padding: 12px 25px;
             color: white;
             text-decoration: none;
-            background-color: #3c4e61;
+            background-color: #0b5db5;
         }
 
         .dropdown-content a:hover {
-            background-color: #2c3e50;
+            background-color: #1267bc;
         }
 
         .main-content {
@@ -87,7 +87,7 @@
         }
 
         header {
-            background-color: #2c3e50;
+            background-color: #0d76de;
             color: white;
             padding: 20px;
             text-align: center;
@@ -144,7 +144,7 @@
 
         .search-bar input[type="submit"] {
             padding: 10px 20px;
-            background-color: #2c3e50;
+            background-color: #1181f1;
             color: white;
             border: none;
             border-radius: 5px;
@@ -162,51 +162,22 @@
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
         }
 
-        table th, table td {
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
             padding: 12px;
             text-align: left;
         }
 
-        table th {
-            background-color: #2c3e50;
+        th {
+            background-color: #066ed5;
             color: white;
         }
 
-        table tbody tr:nth-child(even) {
+        tbody tr:nth-child(even) {
             background-color: #f4f6f9;
-        }
-
-        table tbody tr:hover {
-            background-color: #e0e0e0;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 220px;
-            }
-            .main-content {
-                margin-left: 220px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .sidebar {
-                position: absolute;
-                width: 200px;
-                transform: translateX(-200px);
-            }
-            .sidebar.active {
-                transform: translateX(0);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .sidebar h2 {
-                font-size: 20px;
-            }
-            .sidebar a {
-                font-size: 14px;
-            }
         }
     </style>
 </head>
@@ -253,6 +224,7 @@
                 </thead>
                 <tbody>
                     {% for appointment in appointments %}
+                        {% if appointment.status == "confirmed" %}
                         <tr>
                             <td>{{ appointment.doctor_id.doctor_name }}</td>
                             <td>{{ appointment.doctor_id.specialization }}</td>
@@ -260,16 +232,18 @@
                             <td>{{ appointment.time }}</td>
                             <td>
                                 <button class="btn btn-primary"><a href="{% url 'edit_appointment' appointment.id %}" style="text-decoration: none;">Edit</a></button>
-                                {% if not appointment.status == "cancelled" %}
                                 <button class="btn btn-danger"><a href="{% url 'cancel_appointment' appointment.id %}" style="text-decoration: none;">Cancel</a></button>
+                                {% if appointment.prescription %}
+                                <button class="btn btn-primary"><a href="{% url 'view_prescription' appointment.id %}" style="text-decoration: none;">View Prescription</a></button>
                                 {% else %}
-                                 <td>Appointment cancelled</td>
+                                <p>No prescription available yet.</p>
                                 {% endif %}
                             </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
-                </tbody> 
-            </table>               
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

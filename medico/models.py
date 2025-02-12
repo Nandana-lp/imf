@@ -12,6 +12,7 @@ class Hospital(models.Model):
     district=models.CharField(max_length=25)
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
 class Patient(models.Model):
+<<<<<<< HEAD
     patient_name=models.CharField(max_length=100)
     specialization=models.CharField(max_length=25)
     address=models.CharField(max_length=100)
@@ -19,6 +20,15 @@ class Patient(models.Model):
     date_of_birth=models.CharField(max_length=15)
     contact=models.CharField(max_length=15)
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
+=======
+    patient_name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    gender = models.CharField(max_length=15)
+    date_of_birth = models.CharField(max_length=15)
+    contact = models.CharField(max_length=15)
+    login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
+
+>>>>>>> 9f25d17f0a7ca775f0891a0217c2380d91f6419c
 class Doctor(models.Model):
     doctor_name=models.CharField(max_length=50)
     contact=models.CharField(max_length=15)
@@ -34,4 +44,4 @@ class Appointment(models.Model):
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True, related_name='doctor_id')
     current_date = models.DateField(auto_now_add=True)
     status=models.CharField(max_length=10,null=True)
-    prescription = models.TextField(null=True, blank=True)
+    prescription = models.TextField(max_length=200 ,null=True, blank=True)
