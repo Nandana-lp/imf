@@ -34,4 +34,8 @@ class Appointment(models.Model):
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True, related_name='doctor_id')
     current_date = models.DateField(auto_now_add=True)
     status=models.CharField(max_length=10,null=True)
+<<<<<<< HEAD
 
+=======
+    prescription = models.TextField(null=True, blank=True)
+>>>>>>> e466304e6d20ada4f786972855675fc98d42f813
