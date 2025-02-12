@@ -54,8 +54,12 @@ def PatientHome(request):
         return redirect('login')
     login = get_object_or_404(Login, id=patient_id)
     patient = get_object_or_404(Patient, login_id=login)
-    appointments = Appointment.objects.filter(patient_id=patient)
+    appointments = Appointment.objects.filter(patient_id=login)  
+    
+    print("appointments..", appointments)
+    
     return render(request, 'patienthome.html', {'appointments': appointments})
+
 
 
 def DoctorHome(request):
