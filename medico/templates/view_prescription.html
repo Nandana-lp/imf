@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Prescription</title>
+</head>
+<body>
+    <h2>Prescription for {{ appointment.patient_id.patient_name }}</h2>
+    <p><strong>Doctor:</strong> {{ appointment.doctor_id.doctor_name }}</p>
+    <p><strong>Patient:</strong> {{ appointment.patient_id.patient_name }}</p>
+    <p><strong>Date:</strong> {{ appointment.date }}</p>
+    <p><strong>Time:</strong> {{ appointment.time }}</p>
+    <p><strong>Prescription:</strong></p>
+    <textarea readonly>{{ appointment.prescription }}</textarea>
+</body>
+</html>

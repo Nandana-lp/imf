@@ -25,3 +25,11 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         model=Appointment
         fields=['date','time']
+class PrescriptionForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['prescription']
+        widgets = {
+            'prescription': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter prescription here...'}),
+        }
+

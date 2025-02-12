@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard</title>
-    <style>
+     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -206,19 +206,34 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Doctor Name</th>
                         <th>Patient Name</th>
                         <th>Appointment Date</th>
                         <th>Appointment Time</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for appointment in appointments %}
                         <tr>
+                            <td>{{ appointment.doctor_id.doctor_name }}</td>
                             <td>{{ appointment.patient_id.patient_name }}</td>
                             <td>{{ appointment.date }}</td>
                             <td>{{ appointment.time }}</td>
                             <td>{{ appointment.status }}</td>
+                            <td>
+                                {% if not appointment.status == "cancelled" %}
+                                <button class="btn btn-primary">
+                                    <a href="{% url 'add_prescription' appointment.id %}" style="text-decoration: none; color: rgb(31, 25, 25);">Add Prescription</a>
+                                </button>
+                                <button class="btn btn-primary">
+                                    <a href="{% url 'view_prescription' appointment.id %}" style="text-decoration: none; color: rgb(31, 25, 25);">View Prescription</a>
+                                </button>
+                                {% else %}
+                                <p>Appointment cancelled</p>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
