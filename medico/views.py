@@ -3,6 +3,7 @@ from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorFor
 from django.contrib import messages
 from .models import Hospital ,Login ,Patient,Doctor,Appointment
 from django.db.models import Q
+from django.db.models import Max
 
 def index(request):
     return render(request,'index.html')
@@ -27,6 +28,11 @@ def HospitalReg(request):
         form=HospitalForm()
         login=LoginForm()
     return render(request,'registration.html',{'form':form,'login':login})
+
+Max
+
+ 
+
 def PatientReg(request):
     if request.method == "POST":
         form = PatientForm(request.POST)
@@ -37,13 +43,15 @@ def PatientReg(request):
             user.save()
             a = form.save(commit=False)
             a.login_id = user
-            a.save()
+            a.save()  # The MRI will be generated automatically when saving
+            
             messages.success(request, "Patient registered successfully")
+            return redirect('PatientHome')
     else:
         form = PatientForm()
         login = LoginForm()
+        
     return render(request, 'registration.html', {'form': form, 'login': login})
-
 
 def HospitalHome(request):
     return render(request,'hospital.html')
@@ -96,6 +104,7 @@ def LoginCheck(request):
     else:
         form=LoginCheckForm()
     return render(request,'login.html',{'form':form})
+
 def AddDoctor(request):
     id=request.session['hospital_id']
     user=get_object_or_404(Login,id=id)
