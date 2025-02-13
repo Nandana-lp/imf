@@ -25,8 +25,6 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         model=Appointment
         fields=['date','time']
-<<<<<<< HEAD
-=======
 class PrescriptionForm(forms.ModelForm):
     class Meta:
         model = Appointment
@@ -35,4 +33,3 @@ class PrescriptionForm(forms.ModelForm):
             'prescription': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter prescription here...'}),
         }
 
->>>>>>> 9f25d17f0a7ca775f0891a0217c2380d91f6419c

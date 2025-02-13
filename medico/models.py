@@ -12,23 +12,12 @@ class Hospital(models.Model):
     district=models.CharField(max_length=25)
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
 class Patient(models.Model):
-<<<<<<< HEAD
     patient_name=models.CharField(max_length=100)
-    specialization=models.CharField(max_length=25)
     address=models.CharField(max_length=100)
     gender=models.CharField(max_length=15)
     date_of_birth=models.CharField(max_length=15)
     contact=models.CharField(max_length=15)
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
-=======
-    patient_name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
-    gender = models.CharField(max_length=15)
-    date_of_birth = models.CharField(max_length=15)
-    contact = models.CharField(max_length=15)
-    login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
-
->>>>>>> 9f25d17f0a7ca775f0891a0217c2380d91f6419c
 class Doctor(models.Model):
     doctor_name=models.CharField(max_length=50)
     contact=models.CharField(max_length=15)

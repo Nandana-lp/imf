@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm,PrescriptionForm
+from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm
 from django.contrib import messages
 from .models import Hospital ,Login ,Patient,Doctor,Appointment
 from django.db.models import Q
@@ -70,7 +70,6 @@ def DoctorHome(request):
     doctor = get_object_or_404(Doctor, login_id=login)
     appointments = Appointment.objects.filter(doctor_id=doctor)
     return render(request, 'doctorhome.html', {'appointments': appointments})
-
 
 def LoginCheck(request):
     if request.method=='POST':
@@ -175,20 +174,16 @@ def cancel_appointment(request, appointment_id):
     appointment.save()
     messages.success(request, "Appointment cancelled successfully")
     return redirect('PatientHome')
-
-def add_prescription(request, appointment_id):
-    appointment = get_object_or_404(Appointment, id=appointment_id)
-    if request.method == 'POST':
-        form = PrescriptionForm(request.POST, instance=appointment)
+def add_prescription(request,appointment_id):
+    appointment=get_object_or_404(Appointment,id=appointment_id)
+    if request.method=='POST':
+        form=PrescriptionForm(request.POST,instance=appointment)
         if form.is_valid():
             form.save()
-            messages.success(request, "Prescription added successfully")
+            messages.success(request,"Prescription added successfully")
+        else:
             return redirect('doctor_home')
     else:
-        form = PrescriptionForm(instance=appointment)
-    return render(request, 'add_prescription.html', {'form': form, 'appointment': appointment})
-
-def view_prescription(request, appointment_id):
-    appointment = get_object_or_404(Appointment, id=appointment_id)
-    return render(request, 'view_prescription.html', {'appointment': appointment})
+        form=PrescriptionForm(instance=appointment)
+    return render(request,'add_prescription.html',{'form':form,'appointment':appointment})
 
