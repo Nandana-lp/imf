@@ -13,6 +13,7 @@ class Hospital(models.Model):
     district = models.CharField(max_length=25)
     login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
 
+
 class Patient(models.Model):
     patient_name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
@@ -20,6 +21,26 @@ class Patient(models.Model):
     date_of_birth = models.CharField(max_length=15)
     contact = models.CharField(max_length=15)
     login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
+    MRI = models.CharField(max_length=20, null=True)
+
+    def save(self, *args, **kwargs):
+        # If there's no MRI number, we need to generate it
+        if not self.MRI:
+            # Get the last MRI number and increment it
+            last_patient = Patient.objects.all().order_by('MRI').last()
+            if last_patient:
+                # Increment the last MRI number by 1
+                last_number = int(last_patient.MRI.replace('MC', ''))  # Remove 'MC' for increment
+                new_patient_id = f'MC{str(last_number + 1).zfill(5)}'
+            else:
+                # If there are no previous patients, start with MC00001
+                new_patient_id = 'MC0001'
+
+            self.MRI = new_patient_id
+
+        super().save(*args, **kwargs)
+
+
 
 class Doctor(models.Model):
     doctor_name = models.CharField(max_length=50)

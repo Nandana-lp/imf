@@ -10,10 +10,12 @@ class HospitalForm(forms.ModelForm):
     class Meta:
         model=Hospital
         fields=['hospital_name','contact','city','state','district']
+        
 class PatientForm(forms.ModelForm):
     class Meta:
-        model=Patient
-        fields=['patient_name','address','gender','date_of_birth','contact']
+        model = Patient
+        fields = [ 'patient_name', 'address', 'gender', 'date_of_birth', 'contact']
+
 class LoginCheckForm(forms.Form):
     email=forms.CharField(max_length=100)
     password=forms.CharField(widget=forms.PasswordInput)
@@ -32,4 +34,3 @@ class PrescriptionForm(forms.ModelForm):
         widgets = {
             'prescription': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter prescription here...'}),
         }
-
