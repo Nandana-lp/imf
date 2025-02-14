@@ -1,9 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm
+from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm,PrescriptionForm
 from django.contrib import messages
-from .models import Hospital ,Login ,Patient,Doctor,Appointment
+from .models import *
 from django.db.models import Q
-from django.db.models import Max
 
 def index(request):
     return render(request,'index.html')
@@ -29,9 +28,6 @@ def HospitalReg(request):
         login=LoginForm()
     return render(request,'registration.html',{'form':form,'login':login})
 
-Max
-
- 
 
 def PatientReg(request):
     if request.method == "POST":
@@ -46,7 +42,7 @@ def PatientReg(request):
             a.save()  # The MRI will be generated automatically when saving
             
             messages.success(request, "Patient registered successfully")
-            return redirect('PatientHome')
+            return redirect('login')
     else:
         form = PatientForm()
         login = LoginForm()
@@ -61,8 +57,9 @@ def PatientHome(request):
     if not patient_id:
         return redirect('login')
     login = get_object_or_404(Login, id=patient_id)
+    # print(login)
     patient = get_object_or_404(Patient, login_id=login)
-    appointments = Appointment.objects.filter(patient_id=login)  
+    appointments = Appointment.objects.filter(patient_id=login.id)  
     
     print("appointments..", appointments)
     
@@ -76,7 +73,10 @@ def DoctorHome(request):
         return redirect('login')
     login = get_object_or_404(Login, id=doctor_id)
     doctor = get_object_or_404(Doctor, login_id=login)
-    appointments = Appointment.objects.filter(doctor_id=doctor)
+    appointments = Appointment.objects.filter(doctor_id=doctor).select_related(
+        'patient_id__patient'  # Fetching patient's contact details (name, etc.)
+    ).all()
+
     return render(request, 'doctorhome.html', {'appointments': appointments})
 
 def LoginCheck(request):
@@ -154,7 +154,7 @@ def patient_appointment(request, id):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
-            appointment.patient_id = patient  # Assign the Patient instance
+            appointment.patient_id = login  # Assign the Patient instance
             appointment.doctor_id = doctor 
             a.status="confirmed"
             a.save()
@@ -183,6 +183,8 @@ def cancel_appointment(request, appointment_id):
     appointment.save()
     messages.success(request, "Appointment cancelled successfully")
     return redirect('PatientHome')
+
+
 def add_prescription(request,appointment_id):
     appointment=get_object_or_404(Appointment,id=appointment_id)
     if request.method=='POST':
@@ -190,9 +192,17 @@ def add_prescription(request,appointment_id):
         if form.is_valid():
             form.save()
             messages.success(request,"Prescription added successfully")
-        else:
-            return redirect('doctor_home')
+            return redirect('/doctor_home')
     else:
         form=PrescriptionForm(instance=appointment)
     return render(request,'add_prescription.html',{'form':form,'appointment':appointment})
 
+
+
+
+def view_prescription(request,appointment_id):
+
+    patient=get_object_or_404(Patient,id=appointment_id)
+    appointment=get_object_or_404(Appointment,id=appointment_id)
+    # print("dataaaa",appointment)
+    return render(request,'view_prescription.html',{'appointmnet':appointment})

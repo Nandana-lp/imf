@@ -218,7 +218,7 @@
                     {% for appointment in appointments %}
                         <tr>
                             <td>{{ appointment.doctor_id.doctor_name }}</td>
-                            <td>{{ appointment.patient_id.patient_name }}</td>
+                            <td>{{ appointment.patient_id.patient.patient_name }}</td>
                             <td>{{ appointment.date }}</td>
                             <td>{{ appointment.time }}</td>
                             <td>{{ appointment.status }}</td>

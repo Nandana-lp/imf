@@ -4,29 +4,14 @@ class Login(models.Model):
     email=models.EmailField(unique=True)
     password=models.CharField(max_length=20)
     user_type=models.CharField(max_length=20)
+
 class Hospital(models.Model):
-<<<<<<< HEAD
     hospital_name=models.CharField(max_length=100)
     contact=models.CharField(max_length=15)
     city=models.CharField(max_length=20)
     state=models.CharField(max_length=20)
     district=models.CharField(max_length=25)
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
-class Patient(models.Model):
-    patient_name=models.CharField(max_length=100)
-    address=models.CharField(max_length=100)
-    gender=models.CharField(max_length=15)
-    date_of_birth=models.CharField(max_length=15)
-    contact=models.CharField(max_length=15)
-    login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
-=======
-    hospital_name = models.CharField(max_length=100)
-    contact = models.CharField(max_length=15)
-    city = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    district = models.CharField(max_length=25)
-    login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
-
 
 class Patient(models.Model):
     patient_name = models.CharField(max_length=100)
@@ -34,7 +19,7 @@ class Patient(models.Model):
     gender = models.CharField(max_length=15)
     date_of_birth = models.CharField(max_length=15)
     contact = models.CharField(max_length=15)
-    login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
+    login_id = models.OneToOneField(Login, on_delete=models.CASCADE, null=True, blank=True,related_name='patient')
     MRI = models.CharField(max_length=20, null=True)
 
     def save(self, *args, **kwargs):
@@ -54,9 +39,6 @@ class Patient(models.Model):
 
         super().save(*args, **kwargs)
 
-
-
->>>>>>> a1a5ad5762460a74649584071f2799c3801bb021
 class Doctor(models.Model):
     doctor_name=models.CharField(max_length=50)
     contact=models.CharField(max_length=15)
@@ -68,8 +50,9 @@ class Doctor(models.Model):
 class Appointment(models.Model):
     date = models.CharField(max_length=15)
     time = models.CharField(max_length=15)
-    patient_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True, related_name='paitent_id')
+    patient_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True, related_name='patient_id')
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True, related_name='doctor_id')
     current_date = models.DateField(auto_now_add=True)
-    status=models.CharField(max_length=10,null=True)
-    prescription = models.TextField(max_length=200 ,null=True, blank=True)
+    status = models.CharField(max_length=10, null=True)
+    prescription = models.TextField(max_length=200, null=True, blank=True)
+
