@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm,PrescriptionForm
+from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm,PrescriptionForm,MRIForm
 from django.contrib import messages
-from .models import Hospital ,Login ,Patient,Doctor,Appointment
+from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer
 from django.db.models import Q
 from django.db.models import Max
 
@@ -29,10 +29,6 @@ def HospitalReg(request):
         login=LoginForm()
     return render(request,'registration.html',{'form':form,'login':login})
 
-Max
-
- 
-
 def PatientReg(request):
     if request.method == "POST":
         form = PatientForm(request.POST)
@@ -44,9 +40,9 @@ def PatientReg(request):
             a = form.save(commit=False)
             a.login_id = user
             a.save()  # The MRI will be generated automatically when saving
-            
+
             messages.success(request, "Patient registered successfully")
-            return redirect('PatientHome')
+            return redirect('login')
     else:
         form = PatientForm()
         login = LoginForm()
@@ -142,23 +138,25 @@ def search_doctor(request):
 def patient_appointment(request, id):
     p_id = request.session.get('patient_id')
     login = get_object_or_404(Login, id=p_id)
-    patient = get_object_or_404(Patient, login_id=login)  # Correctly get the Patient instance
+    patient = get_object_or_404(Patient, login_id=login)
     doctor = get_object_or_404(Doctor, id=id)
-    a = get_object_or_404(Appointment, doctor_id=doctor)
+    # Retrieve all appointments for the specific doctor
+    appointments = Appointment.objects.filter(doctor_id=doctor)
+    
     if request.method == 'POST':
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
-            appointment.patient_id = patient  # Assign the Patient instance
-            appointment.doctor_id = doctor 
-            a.status="confirmed"
-            a.save()
+            appointment.patient_id = patient
+            appointment.doctor_id = doctor
+            appointment.status = "confirmed"
             appointment.save()
             messages.success(request, "Requested for Appointment")
             return redirect('PatientHome')
     else:
         form = AppointmentForm()
-    return render(request, 'appointment.html', {'form': form})
+
+    return render(request, 'appointment.html', {'form':form})
 
 def edit_appointment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -195,3 +193,61 @@ def view_prescription(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     return render(request, 'view_prescription.html', {'appointment': appointment})
 
+def search_patient(request):
+    form = MRIForm()
+    results = None
+
+    if request.method == 'POST':
+        form = MRIForm(request.POST)
+        if form.is_valid():
+            mri_number = form.cleaned_data['mri_number']
+            results = Patient.objects.filter(MRI=mri_number)
+            if not results.exists():
+                results = None
+
+    return render(request, 'search_patient.html', {'form': form, 'results': results})
+
+def search_hospital(request):
+    if request.method=='POST':
+        query = request.POST.get('query')
+        results=Hospital.objects.filter(
+                Q(hospital_name__icontains=query) |
+                Q(city__icontains=query) )
+        return render(request, 'search_hospital.html',{'results':results})
+    else:
+        return render(request,'search_hospital.html')
+
+def transfer_patient(request, hospital_id):
+    if request.method == 'POST':
+        form = MRIForm(request.POST)
+        if form.is_valid():
+            mri_number = form.cleaned_data['mri_number']
+            patient = get_object_or_404(Patient, MRI=mri_number)
+            to_hospital = get_object_or_404(Hospital, id=hospital_id)
+            # Find the current hospital associated with the patient's login
+            from_hospital = Hospital.objects.filter(login_id=patient.login_id).first()
+
+            if from_hospital:
+                # Create transfer record
+                PatientTransfer.objects.create(
+                    patient=patient,
+                    from_hospital=from_hospital,
+                    to_hospital=to_hospital
+                )
+
+                # Update patient's hospital association
+                patient.login_id = to_hospital.login_id
+                patient.save()
+
+                messages.success(request, 'Patient transferred successfully')
+                return redirect('search_hospital')
+            else:
+                messages.error(request, 'Current hospital not found for the patient')
+    else:
+        form = MRIForm()
+
+    return render(request, 'transfer_patient.html', {'form':form,'hospital_id': hospital_id})
+
+def patient_details(request, mri_number):
+    patient = get_object_or_404(Patient, MRI=mri_number)
+    return render(request, 'patient_details.html', {'patient':patient})

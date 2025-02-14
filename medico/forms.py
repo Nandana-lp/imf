@@ -34,3 +34,5 @@ class PrescriptionForm(forms.ModelForm):
         widgets = {
             'prescription': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter prescription here...'}),
         }
+class MRIForm(forms.Form):
+    mri_number = forms.CharField(max_length=20, label='MRI Number')

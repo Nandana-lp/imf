@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details</title>
+    <link href="{% static 'admin/codervent.com/assets/css/bootstrap.min.css' %}" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .btn-primary a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-primary a:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>Patient Details</h3>
+        <table class="table table-bordered">
+            <tr>
+                <th>Patient Name</th>
+                <td>{{ patient.patient_name }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ patient.address }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ patient.gender }}</td>
+            </tr>
+            <tr>
+                <th>Date of Birth</th>
+                <td>{{ patient.date_of_birth }}</td>
+            </tr>
+            <tr>
+                <th>Contact</th>
+                <td>{{ patient.contact }}</td>
+            </tr>
+            <tr>
+                <th>MRI</th>
+                <td>{{ patient.MRI }}</td>
+            </tr>
+        </table>
+        <button class="btn btn-primary">
+            <a href="{% url 'transfer_patient' patient.login_id.hospital_id %}">Transfer Patient</a>
+        </button>
+    </div>
+</body>
+</html>
