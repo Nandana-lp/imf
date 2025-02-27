@@ -68,15 +68,11 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h3>Search Patients</h3>
-        <div class="search-bar">
-            <form method="post" action="">
-                {% csrf_token %}
-                <input name="mri_number" type="text" placeholder="Enter MRI number">
-                <input type="submit" value="Search Patients">
-            </form>
-        </div>
+    <form method="post" action="">
+        {% csrf_token %}
+        <input name="mri_number" type="text" placeholder="Enter MRI number">
+        <input type="submit" value="Search Patients">
+    </form>
         <table>
             {% if results %}
                 <h2>Search Results:</h2>
@@ -97,11 +93,7 @@
                     <td>{{ patient.date_of_birth }}</td>
                     <td>{{ patient.contact }}</td>
                     <td>{{ patient.MRI }}</td>
-                    <td>
-                        <button class="btn btn-primary">
-                            <a href="{% url 'patient_details' patient.MRI %}">View Details</a>
-                        </button>
-                    </td>
+                    
                 </tr>
                 {% endfor %}
             {% elif results is not None %}
