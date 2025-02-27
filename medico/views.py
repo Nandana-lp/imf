@@ -1,11 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .forms import HospitalForm, LoginForm ,PatientForm,LoginCheckForm,DoctorForm,AppointmentForm,PrescriptionForm,MRIForm
 from django.contrib import messages
-<<<<<<< HEAD
 from .models import *
-=======
 from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer
->>>>>>> 54455220ec54f46858efcd1b53a30f02c88cd9de
 from django.db.models import Q
 
 def index(request):
@@ -32,10 +29,6 @@ def HospitalReg(request):
         login=LoginForm()
     return render(request,'registration.html',{'form':form,'login':login})
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 54455220ec54f46858efcd1b53a30f02c88cd9de
 def PatientReg(request):
     if request.method == "POST":
         form = PatientForm(request.POST)
@@ -163,16 +156,13 @@ def patient_appointment(request, id):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
-<<<<<<< HEAD
-            appointment.patient_id = login  # Assign the Patient instance
+            appointment.patient_id = patient # Assign the Patient instance
             appointment.doctor_id = doctor 
-            a.status="confirmed"
-            a.save()
-=======
+            appointment.status="confirmed"
+            appointment.save()
             appointment.patient_id = patient
             appointment.doctor_id = doctor
             appointment.status = "confirmed"
->>>>>>> 54455220ec54f46858efcd1b53a30f02c88cd9de
             appointment.save()
             messages.success(request, "Requested for Appointment")
             return redirect('PatientHome')
@@ -214,16 +204,13 @@ def add_prescription(request,appointment_id):
     return render(request,'add_prescription.html',{'form':form,'appointment':appointment})
 
 
-<<<<<<< HEAD
-
-
 def view_prescription(request,appointment_id):
 
     patient=get_object_or_404(Patient,id=appointment_id)
     appointment=get_object_or_404(Appointment,id=appointment_id)
     # print("dataaaa",appointment)
     return render(request,'view_prescription.html',{'appointmnet':appointment})
-=======
+
 def search_patient(request):
     form = MRIForm()
     results = None
@@ -282,4 +269,4 @@ def transfer_patient(request, hospital_id):
 def patient_details(request, mri_number):
     patient = get_object_or_404(Patient, MRI=mri_number)
     return render(request, 'patient_details.html', {'patient':patient})
->>>>>>> 54455220ec54f46858efcd1b53a30f02c88cd9de
+    

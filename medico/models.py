@@ -53,11 +53,8 @@ class Appointment(models.Model):
     patient_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True, related_name='patient_id')
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True, related_name='doctor_id')
     current_date = models.DateField(auto_now_add=True)
-<<<<<<< HEAD
     status = models.CharField(max_length=10, null=True)
     prescription = models.TextField(max_length=200, null=True, blank=True)
-
-=======
     status=models.CharField(max_length=10,null=True)
     prescription = models.TextField(max_length=200 ,null=True, blank=True)
 
@@ -66,4 +63,4 @@ class PatientTransfer(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     from_hospital = models.ForeignKey(Hospital, related_name='from_hospital', on_delete=models.CASCADE)
     to_hospital = models.ForeignKey(Hospital, related_name='to_hospital', on_delete=models.CASCADE)
->>>>>>> 54455220ec54f46858efcd1b53a30f02c88cd9de
+
