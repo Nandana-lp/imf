@@ -21,6 +21,7 @@ class Patient(models.Model):
     contact = models.CharField(max_length=15)
     login_id = models.OneToOneField(Login, on_delete=models.CASCADE, null=True, blank=True,related_name='patient')
     MRI = models.CharField(max_length=20, null=True)
+    hsp_id = models.ForeignKey(Hospital, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # If there's no MRI number, we need to generate it

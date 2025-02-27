@@ -87,7 +87,7 @@
                     <th>Date of Birth</th>
                     <th>Contact</th>
                     <th>MRI</th>
-                    <th>Action</th>
+                    
                 </tr>
                 {% for patient in results %}
                 <tr>
@@ -97,11 +97,7 @@
                     <td>{{ patient.date_of_birth }}</td>
                     <td>{{ patient.contact }}</td>
                     <td>{{ patient.MRI }}</td>
-                    <td>
-                        <button class="btn btn-primary">
-                            <a href="{% url 'patient_details' patient.MRI %}">View Details</a>
-                        </button>
-                    </td>
+                    
                 </tr>
                 {% endfor %}
             {% elif results is not None %}
