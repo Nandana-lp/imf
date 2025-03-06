@@ -159,14 +159,11 @@ def patient_appointment(request, id):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
-            appointment.patient_id = patient # Assign the Patient instance
+            appointment.patient_id = login # Assign the Patient instance
             appointment.doctor_id = doctor 
             appointment.status="confirmed"
             appointment.save()
-            appointment.patient_id = patient
-            appointment.doctor_id = doctor
-            appointment.status = "confirmed"
-            appointment.save()
+        
             messages.success(request, "Requested for Appointment")
             return redirect('PatientHome')
     else:
@@ -255,15 +252,14 @@ def transfer_patient(request,id):
     
 
 
-<<<<<<< HEAD
+
     return render(request, 'transfer_patient.html', {'form':form,'hospital_id': hospital_id})
 
 def patient_details(request, mri_number):
     patient = get_object_or_404(Patient, MRI=mri_number)
     return render(request, 'patient_details.html', {'patient':patient})
     
-=======
 #  def patient_details(request, mri_number):
 #     patient = get_object_or_404(Patient, MRI=mri_number)
 #     return render(request, 'patient_details.html', {'patient': patient})
->>>>>>> 2b00716998230786bd4b812d26f4d9f2d2d31024
+

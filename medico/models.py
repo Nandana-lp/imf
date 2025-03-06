@@ -56,8 +56,7 @@ class Appointment(models.Model):
     current_date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=10, null=True)
     prescription = models.TextField(max_length=200, null=True, blank=True)
-    status=models.CharField(max_length=10,null=True)
-    prescription = models.TextField(max_length=200 ,null=True, blank=True)
+   
 
 class PatientTransfer(models.Model):
     current_date = models.DateField(auto_now_add=True)
