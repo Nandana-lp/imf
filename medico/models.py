@@ -13,7 +13,6 @@ class Hospital(models.Model):
     district = models.CharField(max_length=25)
     login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
 
-
 class Patient(models.Model):
     patient_name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
@@ -22,26 +21,19 @@ class Patient(models.Model):
     contact = models.CharField(max_length=15)
     login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
     MRI = models.CharField(max_length=20, null=True)
-    hsp_id = models.ForeignKey(Hospital, on_delete=models.CASCADE, null=True, blank=True)
+    hsp_id = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        # If there's no MRI number, we need to generate it
         if not self.MRI:
-            # Get the last MRI number and increment it
             last_patient = Patient.objects.all().order_by('MRI').last()
             if last_patient:
-                # Increment the last MRI number by 1
-                last_number = int(last_patient.MRI.replace('MC', ''))  # Remove 'MC' for increment
+                last_number = int(last_patient.MRI.replace('MC', ''))
                 new_patient_id = f'MC{str(last_number + 1).zfill(4)}'
             else:
-                # If there are no previous patients, start with MC00001
                 new_patient_id = 'MC0001'
-
             self.MRI = new_patient_id
 
         super().save(*args, **kwargs)
-
-
 
 class Doctor(models.Model):
     doctor_name = models.CharField(max_length=50)
@@ -58,11 +50,11 @@ class Appointment(models.Model):
     patient_id = models.ForeignKey(Patient, on_delete=models.CASCADE, null=True, blank=True, related_name='patient_id')
     doctor_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, null=True, blank=True, related_name='doctor_id')
     current_date = models.DateField(auto_now_add=True)
-    status=models.CharField(max_length=10,null=True)
-    prescription = models.TextField(max_length=200 ,null=True, blank=True)
+    status = models.CharField(max_length=10, null=True)
+    prescription = models.TextField(max_length=200, null=True, blank=True)
 
 class PatientTransfer(models.Model):
     current_date = models.DateField(auto_now_add=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    from_hospital = models.ForeignKey(Hospital, related_name='from_hospital', on_delete=models.CASCADE)
+    from_hospital = models.ForeignKey(Hospital, related_name='from_hospital', on_delete=models.CASCADE, null=True)
     to_hospital = models.ForeignKey(Hospital, related_name='to_hospital', on_delete=models.CASCADE)

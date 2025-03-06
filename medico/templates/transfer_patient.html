@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Patient</title>
+    <title>Transfer Patient</title>
     <link href="{% static 'admin/codervent.com/assets/css/bootstrap.min.css' %}" rel="stylesheet">
     <style>
         .search-bar {
@@ -68,11 +68,15 @@
     </style>
 </head>
 <body>
-    <form method="post" action="">
-        {% csrf_token %}
-        <input name="mri_number" type="text" placeholder="Enter MRI number">
-        <input type="submit" value="Search Patients">
-    </form>
+    <div class="container">
+        <h3>Search Patients</h3>
+        <div class="search-bar">
+            <form method="post" action="">
+                {% csrf_token %}
+                <input name="mri_number" type="text" placeholder="Enter MRI number">
+                <input type="submit" value="Search Patients">
+            </form>
+        </div>
         <table>
             {% if results %}
                 <h2>Search Results:</h2>
@@ -93,7 +97,12 @@
                     <td>{{ patient.date_of_birth }}</td>
                     <td>{{ patient.contact }}</td>
                     <td>{{ patient.MRI }}</td>
-                    
+                    <td>
+                        <form method="post" action="{% url 'transfer_patient_action' patient.id hosp.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Transfer</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             {% elif results is not None %}
