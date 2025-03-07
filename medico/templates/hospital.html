@@ -48,13 +48,15 @@
                                         <nav>
                                             <ul id="navigation">
                                                 <li><a href="index.html">home</a></li>
-                                                <li><a href="about.html">About</a></li>
-                                                <li><a href="#">Register <i class="ti-angle-down"></i></a>
+                                                <li><a href="{% url 'transferred_patients' %}">View Transferred Patients</a>
+                                                </li>
+                                                <li><a href="{% url 'search_hospital'  %}">Transfer Patient</a></li>
+                                                <!-- <li><a href="#">Register <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="#">Hospital</a></li>
                                                         <li><a href="#">Patient</a></li>
                                                     </ul>
-                                                </li>
+                                                </li> -->
                                                 <li><a href="#">Hospital Management <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'AddDoctor' %}">Add Doctors</a></li>
@@ -62,13 +64,12 @@
                                                         <li><a href="{%url 'search_patient' %}">Search Patients</a></li>
                                                     </ul>
                                                 </li>
-                                                <li><a href="{% url 'search_hospital'  %}">Transfer Patient</a></li>
                                             </ul>
                                         </nav>
                                     </div>
                                     <div class="book_room">
                                         <div class="book_btn">
-                                            <a class="popup-with-form" href="#">Logout</a>
+                                            <a class="popup-with-form" href="{% url 'Logout' %}">Logout</a>
                                         </div>
                                     </div>
                                 </div>

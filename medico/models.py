@@ -21,7 +21,6 @@ class Patient(models.Model):
     contact = models.CharField(max_length=15)
     login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
     MRI = models.CharField(max_length=20, null=True)
-    hsp_id = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.MRI:
