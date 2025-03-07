@@ -223,7 +223,7 @@ def add_prescription(request, appointment_id):
         if form.is_valid():
             form.save()
             messages.success(request,"Prescription added successfully")
-            return redirect('/doctor_home')
+            return redirect('DoctorHome')
     else:
         form=PrescriptionForm(instance=appointment)
     return render(request,'add_prescription.html',{'form':form,'appointment':appointment})

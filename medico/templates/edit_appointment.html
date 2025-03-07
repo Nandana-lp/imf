@@ -4,13 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background-color: #0778e8;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            flex: 1;
+            padding: 2em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 2px solid #ddd;
+            padding: 1em;
+            border-radius: 8px;
+        }
+        input[type="submit"] {
+            background-color: #0778e8;
+            color: white;
+            border: none;
+            padding: 0.5em;
+            cursor: pointer;
+            margin-top: 1em;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-        <h2>Edit Appointment</h2>
+    <header>
+        <h1>Edit Appointment</h1>
+    </header>
+    <main>
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit" value="Save Changes">
         </form>
+    </main>
+    <footer>
+        <p></p>
+    </footer>
 </body>
 </html>

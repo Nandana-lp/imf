@@ -4,28 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor list</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background-color: #0778e8;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            flex: 1;
+            padding: 2em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+        th, td {
+            padding: 0.5em;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #0778e8;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <h1>Doctors list</h1>
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Specialization</th>
-            <th>Age</th>
-            <th>Gender</th>
-            <th>Contact</th>
-            <th>Email</th>
-        </tr>
-        {% for doctor in doctors %}
-        <tr>
-            <td>{{doctor.doctor_name}}</td>
-            <td>{{doctor.specialization}}</td>
-            <td>{{doctor.age}}</td>
-            <td>{{doctor.gender}}</td>
-            <td>{{doctor.contact}}</td>
-            <td>{{doctor.login_id.email}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <header>
+        <h1>Doctors List</h1>
+    </header>
+    <main>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Contact</th>
+                <th>Email</th>
+            </tr>
+            {% for doctor in doctors %}
+            <tr>
+                <td>{{doctor.doctor_name}}</td>
+                <td>{{doctor.specialization}}</td>
+                <td>{{doctor.age}}</td>
+                <td>{{doctor.gender}}</td>
+                <td>{{doctor.contact}}</td>
+                <td>{{doctor.login_id.email}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </footer>
 </body>
 </html>
