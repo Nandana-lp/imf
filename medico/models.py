@@ -6,21 +6,12 @@ class Login(models.Model):
     user_type=models.CharField(max_length=20)
 
 class Hospital(models.Model):
-<<<<<<< HEAD
     hospital_name=models.CharField(max_length=100)
     contact=models.CharField(max_length=15)
     city=models.CharField(max_length=20)
     state=models.CharField(max_length=20)
     district=models.CharField(max_length=25)
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True)
-=======
-    hospital_name = models.CharField(max_length=100)
-    contact = models.CharField(max_length=15)
-    city = models.CharField(max_length=20)
-    state = models.CharField(max_length=20)
-    district = models.CharField(max_length=25)
-    login_id = models.ForeignKey(Login, on_delete=models.CASCADE, null=True, blank=True)
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
 
 class Patient(models.Model):
     patient_name = models.CharField(max_length=100)
@@ -60,19 +51,10 @@ class Appointment(models.Model):
     current_date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=10, null=True)
     prescription = models.TextField(max_length=200, null=True, blank=True)
-<<<<<<< HEAD
-   
-=======
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
 
 class PatientTransfer(models.Model):
     current_date = models.DateField(auto_now_add=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-<<<<<<< HEAD
-    from_hospital = models.ForeignKey(Hospital, related_name='from_hospital', on_delete=models.CASCADE)
-    to_hospital = models.ForeignKey(Hospital, related_name='to_hospital', on_delete=models.CASCADE)
-
-=======
     from_hospital = models.ForeignKey(Hospital, related_name='from_hospital', on_delete=models.CASCADE, null=True)
     to_hospital = models.ForeignKey(Hospital, related_name='to_hospital', on_delete=models.CASCADE)
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
+

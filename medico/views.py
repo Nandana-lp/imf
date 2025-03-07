@@ -1,12 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import HospitalForm, LoginForm, PatientForm, LoginCheckForm, DoctorForm, AppointmentForm, PrescriptionForm, MRIForm
 from django.contrib import messages
-<<<<<<< HEAD
-from .models import *
 from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer
-=======
-from .models import Hospital, Login, Patient, Doctor, Appointment, PatientTransfer
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
 from django.db.models import Q
 
 def index(request):
@@ -71,26 +66,15 @@ def PatientHome(request):
     
     return render(request, 'patienthome.html', {'appointments': appointments})
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
 def DoctorHome(request):
     doctor_id = request.session.get('doctor_id')
     if not doctor_id:
         return redirect('login')
     login = get_object_or_404(Login, id=doctor_id)
     doctor = get_object_or_404(Doctor, login_id=login)
-    appointments = Appointment.objects.filter(doctor_id=doctor).select_related(
-        'patient_id__patient'  # Fetching patient's contact details (name, etc.)
-    ).all()
-
-<<<<<<< HEAD
+    appointments = Appointment.objects.filter(doctor_id=doctor)
     return render(request, 'doctorhome.html', {'appointments': appointments})
 
-=======
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
 def LoginCheck(request):
     if request.method == 'POST':
         form = LoginCheckForm(request.POST)
@@ -202,42 +186,22 @@ def cancel_appointment(request, appointment_id):
     messages.success(request, "Appointment cancelled successfully")
     return redirect('PatientHome')
 
-<<<<<<< HEAD
-
-def add_prescription(request,appointment_id):
-    appointment=get_object_or_404(Appointment,id=appointment_id)
-    if request.method=='POST':
-        form=PrescriptionForm(request.POST,instance=appointment)
-=======
 def add_prescription(request, appointment_id):
     appointment = get_object_or_404(Appointment, id = appointment_id)
     if request.method == 'POST':
         form = PrescriptionForm(request.POST, instance = appointment)
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
         if form.is_valid():
             form.save()
             messages.success(request,"Prescription added successfully")
             return redirect('/doctor_home')
     else:
-<<<<<<< HEAD
         form=PrescriptionForm(instance=appointment)
     return render(request,'add_prescription.html',{'form':form,'appointment':appointment})
 
 
-def view_prescription(request,appointment_id):
-
-    patient=get_object_or_404(Patient,id=appointment_id)
-    appointment=get_object_or_404(Appointment,id=appointment_id)
-    # print("dataaaa",appointment)
-    return render(request,'view_prescription.html',{'appointmnet':appointment})
-=======
-        form = PrescriptionForm(instance = appointment)
-    return render(request, 'add_prescription.html', {'form': form, 'appointment': appointment})
-
 def view_prescription(request, appointment_id):
     appointment = get_object_or_404(Appointment, id = appointment_id)
     return render(request, 'view_prescription.html', {'appointment': appointment})
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
 
 def search_patient(request):
     if request.method == 'POST':
@@ -273,8 +237,7 @@ def transfer_patient(request, id):
 def transfer_patient_action(request, patient_id, hosp_id):
     patient = get_object_or_404(Patient, id=patient_id)
     to_hospital = get_object_or_404(Hospital, id=hosp_id)
-    from_hospital = patient.hsp_id
-
+    from_hospital = patient.hsp_id  
     if from_hospital and from_hospital != to_hospital:
         PatientTransfer.objects.create(patient=patient, from_hospital=from_hospital, to_hospital=to_hospital)
         patient.hsp_id = to_hospital
@@ -282,20 +245,5 @@ def transfer_patient_action(request, patient_id, hosp_id):
         messages.success(request, "Patient transferred successfully.")
     else:
         messages.error(request, "Transfer not possible.")
-
-<<<<<<< HEAD
-
-
-    return render(request, 'transfer_patient.html', {'form':form,'hospital_id': hospital_id})
-
-def patient_details(request, mri_number):
-    patient = get_object_or_404(Patient, MRI=mri_number)
-    return render(request, 'patient_details.html', {'patient':patient})
-    
-#  def patient_details(request, mri_number):
-#     patient = get_object_or_404(Patient, MRI=mri_number)
-#     return render(request, 'patient_details.html', {'patient': patient})
-
-=======
     return redirect('transfer_patient', id=hosp_id)
->>>>>>> a29643a91a12fca7845baed38f88492e80298733
+
