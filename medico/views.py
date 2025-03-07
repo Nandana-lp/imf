@@ -4,7 +4,7 @@ from .forms import (
     DoctorForm, AppointmentForm, PrescriptionForm, MRIForm
 )
 from django.contrib import messages
-from .models import Hospital, Login, Patient, Doctor, Appointment, PatientTransfer
+from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer
 from django.db.models import Q
 
 def index(request):
@@ -68,7 +68,17 @@ def PatientHome(request):
     if not patient_id:
         messages.error(request, "You need to log in first.")
         return redirect('login')
+<<<<<<< HEAD
     appointments = Appointment.objects.filter(patient_id=patient_id)
+=======
+    login = get_object_or_404(Login, id=patient_id)
+    # print(login)
+    patient = get_object_or_404(Patient, login_id=login)
+    appointments = Appointment.objects.filter(patient_id=login.id)  
+    
+    print("appointments..", appointments)
+    
+>>>>>>> 4815b723772398c011223ba29e5ec2438363ffe1
     return render(request, 'patienthome.html', {'appointments': appointments})
 
 def DoctorHome(request):
@@ -146,7 +156,9 @@ def search_doctor(request):
             messages.info(request, "No doctors found matching the criteria.")
         return render(request, 'doc.html', {'doctors': doctors})
     else:
-        return render(request, 'doc.html')
+        doctors = Doctor.objects.all()  # No query, show all doctors
+    return render(request, 'doclist.html', {'doctors': doctors, 'query': a})
+
 
 def patient_appointment(request, doctor_id):
     patient_id = request.session.get('patient_id')
@@ -158,11 +170,20 @@ def patient_appointment(request, doctor_id):
         form = AppointmentForm(request.POST)
         if form.is_valid():
             appointment = form.save(commit=False)
+<<<<<<< HEAD
             appointment.patient_id = patient_id
             appointment.doctor_id = doctor
             appointment.status = "confirmed"
             appointment.save()
             messages.success(request, "Appointment requested successfully.")
+=======
+            appointment.patient_id = login # Assign the Patient instance
+            appointment.doctor_id = doctor 
+            appointment.status="confirmed"
+            appointment.save()
+        
+            messages.success(request, "Requested for Appointment")
+>>>>>>> 4815b723772398c011223ba29e5ec2438363ffe1
             return redirect('PatientHome')
         else:
             messages.error(request, "Please correct the errors below.")
@@ -213,6 +234,7 @@ def add_prescription(request, appointment_id):
         form = PrescriptionForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
+<<<<<<< HEAD
             messages.success(request, "Prescription added successfully.")
             return redirect('doctor_home')
         else:
@@ -220,6 +242,14 @@ def add_prescription(request, appointment_id):
     else:
         form = PrescriptionForm(instance=appointment)
     return render(request, 'add_prescription.html', {'form': form, 'appointment': appointment})
+=======
+            messages.success(request,"Prescription added successfully")
+            return redirect('/doctor_home')
+    else:
+        form=PrescriptionForm(instance=appointment)
+    return render(request,'add_prescription.html',{'form':form,'appointment':appointment})
+
+>>>>>>> 4815b723772398c011223ba29e5ec2438363ffe1
 
 def view_prescription(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -278,6 +308,7 @@ def transfer_patient_action(request, patient_id, to_hospital_id):
     from_hospital = get_object_or_404(Hospital, id=from_hospital_id)
     to_hospital = get_object_or_404(Hospital, id=to_hospital_id)
     patient = get_object_or_404(Patient, id=patient_id)
+<<<<<<< HEAD
 
     # Prevent transferring to the same hospital
     if from_hospital == to_hospital:
@@ -314,3 +345,16 @@ def Logout(request):
     request.session.flush()
     messages.info(request, "You have been logged out.")
     return redirect('index')
+=======
+    to_hospital = get_object_or_404(Hospital, id=hosp_id)
+    from_hospital = patient.hsp_id  
+    if from_hospital and from_hospital != to_hospital:
+        PatientTransfer.objects.create(patient=patient, from_hospital=from_hospital, to_hospital=to_hospital)
+        patient.hsp_id = to_hospital
+        patient.save()
+        messages.success(request, "Patient transferred successfully.")
+    else:
+        messages.error(request, "Transfer not possible.")
+    return redirect('transfer_patient', id=hosp_id)
+
+>>>>>>> 4815b723772398c011223ba29e5ec2438363ffe1
