@@ -26,9 +26,7 @@ urlpatterns = [
     path('search_patient', views.search_patient, name='search_patient'),
     path('transfer_patient/<int:hospital_id>/', views.transfer_patient, name='transfer_patient'),
     path('transfer_patient_action/<int:patient_id>/<int:to_hospital_id>/', views.transfer_patient_action, name='transfer_patient_action'),
-    path('transferred_patients/', views.transferred_patients, name='transferred_patients'),
 
-    path('Logout', views.Logout, name='Logout'),
 
 
 ]
