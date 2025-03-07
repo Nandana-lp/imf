@@ -4,21 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background-color: #0778e8;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            flex: 1;
+            padding: 2em;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+            margin: 0 auto;
+            border: 2px solid #ddd; /* Added border */
+            padding: 1em; /* Added padding */
+            border-radius: 8px; /* Added border radius for rounded corners */
+        }
+        button {
+            background-color: #0778e8;
+            color: white;
+            border: none;
+            padding: 0.5em;
+            cursor: pointer;
+            margin-top: 1em;
+        }
+        button:hover {
+            background-color: #0778e8;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            margin: 0.5em 0;
+            padding: 0.5em;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p}} 
-        {{ login.as_p}}
-        <button type="submit">add doctor</button>
-    </form>
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    </form>
+    <header>
+        <h1>Doctor Registration</h1>
+    </header>
+    <main>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p}} 
+            {{ login.as_p}}
+            <button type="submit">Add Doctor</button>
+        </form>
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; 2025 Your Company. All rights reserved.</p>
+    </footer>
 </body>
 </html>
