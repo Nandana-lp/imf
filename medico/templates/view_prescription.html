@@ -4,14 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Prescription</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header, footer {
+            background-color: #0778e8;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        main {
+            flex: 1;
+            padding: 2em;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            resize: none;
+        }
+    </style>
 </head>
 <body>
-    <h2>Prescription for {{ appointment.patient_id.patient_name }}</h2>
-    <p><strong>Doctor:</strong> {{ appointment.doctor_id.doctor_name }}</p>
-    <p><strong>Patient:</strong> {{ appointment.patient_id.patient_name }}</p>
-    <p><strong>Date:</strong> {{ appointment.date }}</p>
-    <p><strong>Time:</strong> {{ appointment.time }}</p>
-    <p><strong>Prescription:</strong></p>
-    <textarea readonly>{{ appointment.prescription }}</textarea>
+    <header>
+        <h1>View Prescription</h1>
+    </header>
+    <main>
+        <h2>Prescription for {{ appointment.patient_id.patient_name }}</h2>
+        <p><strong>Doctor:</strong> {{ appointment.doctor_id.doctor_name }}</p>
+        <p><strong>Patient:</strong> {{ appointment.patient_id.patient_name }}</p>
+        <p><strong>Date:</strong> {{ appointment.date }}</p>
+        <p><strong>Time:</strong> {{ appointment.time }}</p>
+        <p><strong>Prescription:</strong></p>
+        <textarea readonly>{{ appointment.prescription }}</textarea>
+    </main>
+    <footer>
+        <p></p>
+    </footer>
 </body>
 </html>

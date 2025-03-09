@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+<<<<<<< HEAD
+from .forms import HospitalForm, LoginForm, PatientForm, LoginCheckForm, DoctorForm, AppointmentForm, PrescriptionForm, MRForm
+=======
 from .forms import (
     HospitalForm, LoginForm, PatientForm, LoginCheckForm, 
     DoctorForm, AppointmentForm, PrescriptionForm, MRForm, AmbulanceForm, LoginEditForm
 )
+>>>>>>> aaadcf83bae2e6537e51243ed784e5d908ab21ac
 from django.contrib import messages
 from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer,Ambulance
 from django.db.models import Q
@@ -44,9 +48,16 @@ def PatientReg(request):
             user = login.save(commit=False)
             user.user_type = 'patient'
             user.save()
+<<<<<<< HEAD
+            a = form.save(commit=False)
+            a.login_id = user
+            a.save()  # The MR will be generated automatically when saving
+
+=======
             patient = form.save(commit=False)
             patient.login_id = user
             patient.save()
+>>>>>>> aaadcf83bae2e6537e51243ed784e5d908ab21ac
             messages.success(request, "Patient registered successfully")
             return redirect('login')
         else:
@@ -205,7 +216,7 @@ def add_prescription(request, appointment_id):
         if form.is_valid():
             form.save()
             messages.success(request,"Prescription added successfully")
-            return redirect('DoctorHome')
+            return redirect('doctor_home')
     else:
         form=PrescriptionForm(instance=appointment)
     return render(request,'add_prescription.html',{'form':form,'appointment':appointment})
@@ -217,9 +228,10 @@ def view_prescription(request, appointment_id):
 
 def search_patient(request):
     if request.method == 'POST':
-        query = request.POST.get('mr_number')
-        results = Patient.objects.filter(Q(MR__icontains=query))
+        query = request.POST.get('mri_number')
+        results = Patient.objects.filter(Q(MRI__icontains=query))
         return render(request, 'search_patient.html', {'results': results})
+>>>>>>> aaadcf83bae2e6537e51243ed784e5d908ab21ac
     else:
         return render(request, 'search_patient.html')
 
@@ -235,10 +247,18 @@ def search_hospital(request):
 
 def find_patient(request,hsp_id):
     if request.method == 'POST':
+<<<<<<< HEAD
+         query = request.POST.get('mr_number')
+         results = Patient.objects.filter(
+             Q(MR__icontains = query)
+         )
+         return render(request, 'transfer_patient.html', {'results':results,'hosp': hosp})
+=======
         hsp=get_object_or_404(Hospital,id=hsp_id)
         query = request.POST.get('mr_number')
         results = Patient.objects.filter(Q(MR__icontains=query))
         return render(request, 'find_patient.html', {'results': results,'hsp':hsp})
+>>>>>>> aaadcf83bae2e6537e51243ed784e5d908ab21ac
     else:
         return render(request, 'find_patient.html')
 

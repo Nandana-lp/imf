@@ -1,0 +1,34 @@
+# Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Django specific files and folders
+db.sqlite3  # If you're using SQLite database
+*.log        # Logs
+*.pot        # Translation template files
+*.mo         # Translation binary files
+
+# Local settings file (to store sensitive data like secret keys)
+local_settings.py
+
+# Django migrations (optional if you don't want them to be tracked)
+*/migrations/*
+
+# Cache and static files
+staticfiles/
+*.log
+*.pot
+
+# Environment variables files
+.env
+*.env
+
+# IDE and editor folders
+.vscode/
+.idea/
+
+# Python virtual environment
+venv/
+env/
+.venv/
