@@ -82,7 +82,6 @@
     </header>
     <main>
         <div class="container">
-            <h3>Search Patients</h3>
             <div class="search-bar">
                 <form method="post" action="">
                     {% csrf_token %}
@@ -111,10 +110,8 @@
                         <td>{{ patient.contact }}</td>
                         <td>{{ patient.MR }}</td>
                         <td>
-                            <form method="post" action="{% url 'transfer_patient_action' patient.id hosp.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Transfer</button>
-                            </form>
+                            <button><a href="{% url 'transfer_patient'  hsp.id patient.id %}" style="color:white;text-decoration: none;">Transfer</a></button>
+                        
                         </td>
                     </tr>
                     {% endfor %}
