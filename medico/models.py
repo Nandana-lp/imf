@@ -20,18 +20,18 @@ class Patient(models.Model):
     date_of_birth = models.CharField(max_length=15)
     contact = models.CharField(max_length=15)
     login_id = models.OneToOneField(Login, on_delete=models.CASCADE, null=True, blank=True,related_name='patient')
-    MRI = models.CharField(max_length=20, null=True)
+    MR = models.CharField(max_length=20, null=True)
     hsp_id = models.ForeignKey(Hospital, on_delete=models.SET_NULL, null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        if not self.MRI:
-            last_patient = Patient.objects.all().order_by('MRI').last()
+        if not self.MR:
+            last_patient = Patient.objects.all().order_by('MR').last()
             if last_patient:
-                last_number = int(last_patient.MRI.replace('MC', ''))
+                last_number = int(last_patient.MR.replace('MC', ''))
                 new_patient_id = f'MC{str(last_number + 1).zfill(4)}'
             else:
                 new_patient_id = 'MC0001'
-            self.MRI = new_patient_id
+            self.MR = new_patient_id
 
         super().save(*args, **kwargs)
 

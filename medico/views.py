@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import HospitalForm, LoginForm, PatientForm, LoginCheckForm, DoctorForm, AppointmentForm, PrescriptionForm, MRIForm
+from .forms import HospitalForm, LoginForm, PatientForm, LoginCheckForm, DoctorForm, AppointmentForm, PrescriptionForm, MRForm
 from django.contrib import messages
 from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer
 from django.db.models import Q
@@ -40,7 +40,7 @@ def PatientReg(request):
             user.save()
             a = form.save(commit=False)
             a.login_id = user
-            a.save()  # The MRI will be generated automatically when saving
+            a.save()  # The MR will be generated automatically when saving
 
             messages.success(request, "Patient registered successfully")
             return redirect('login')
@@ -193,7 +193,7 @@ def add_prescription(request, appointment_id):
         if form.is_valid():
             form.save()
             messages.success(request,"Prescription added successfully")
-            return redirect('DoctorHome')
+            return redirect('doctor_home')
     else:
         form=PrescriptionForm(instance=appointment)
     return render(request,'add_prescription.html',{'form':form,'appointment':appointment})
@@ -205,9 +205,9 @@ def view_prescription(request, appointment_id):
 
 def search_patient(request):
     if request.method == 'POST':
-       query = request.POST.get('mri_number')
+       query = request.POST.get('mr_number')
        results = Patient.objects.filter(
-        Q(MRI__icontains = query)
+        Q(MR__icontains = query)
        )
        return render(request, 'search_patient.html', {'results': results})
     else:
@@ -226,9 +226,9 @@ def search_hospital(request):         # for searching hospital for transferring 
 def transfer_patient(request, id):
     hosp = get_object_or_404(Hospital, id = id)
     if request.method == 'POST':
-         query = request.POST.get('mri_number')
+         query = request.POST.get('mr_number')
          results = Patient.objects.filter(
-             Q(MRI__icontains = query)
+             Q(MR__icontains = query)
          )
          return render(request, 'transfer_patient.html', {'results':results,'hosp': hosp})
     else:

@@ -85,7 +85,7 @@
             <div class="search-bar">
                 <form method="post" action="">
                     {% csrf_token %}
-                    <input name="mri_number" type="text" placeholder="Enter MRI number">
+                    <input name="mr_number" type="text" placeholder="Enter MR number">
                     <input type="submit" value="Search Patients">
                 </form>
             </div>
@@ -98,7 +98,7 @@
                         <th>Gender</th>
                         <th>Date of Birth</th>
                         <th>Contact</th>
-                        <th>MRI</th>
+                        <th>MR</th>
                     </tr>
                     {% for patient in results %}
                     <tr>
@@ -107,7 +107,7 @@
                         <td>{{ patient.gender }}</td>
                         <td>{{ patient.date_of_birth }}</td>
                         <td>{{ patient.contact }}</td>
-                        <td>{{ patient.MRI }}</td>
+                        <td>{{ patient.MR }}</td>
                     </tr>
                     {% endfor %}
                 {% elif results is not None %}
