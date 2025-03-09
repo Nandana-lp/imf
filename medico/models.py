@@ -21,7 +21,6 @@ class Patient(models.Model):
     contact = models.CharField(max_length=15)
     login_id = models.OneToOneField(Login, on_delete=models.CASCADE, null=True, blank=True,related_name='patient')
     MRI = models.CharField(max_length=20, null=True)
-
     def save(self, *args, **kwargs):
         if not self.MRI:
             last_patient = Patient.objects.all().order_by('MRI').last()

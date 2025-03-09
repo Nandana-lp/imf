@@ -77,36 +77,11 @@
     </style>
 </head>
 <body>
-<<<<<<< HEAD
-    <div class="container">
-        <h1>Transfer Patients for {{ hospital.hospital_name }}</h1>
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="mri_number" placeholder="Enter MRI Number" required>
-    <button type="submit">Search</button>
-</form>
-
-{% if patients %}
-    <h2>Matching Patients</h2>
-    <ul>
-        {% for patient in patients %}
-        <li>
-            {{ patient.patient_name }} - {{ patient.MRI }}
-            <a href="{% url 'transfer_patient_action' patient.id hospital.id %}">Transfer Patient</a>
-        </li>
-        {% endfor %}
-    </ul>
-{% elif messages %}
-    <p>{{ messages }}</p>
-{% endif %}
-
-=======
     <header>
         <h1>Transfer Patient</h1>
     </header>
     <main>
         <div class="container">
-            <h3>Search Patients</h3>
             <div class="search-bar">
                 <form method="post" action="">
                     {% csrf_token %}
@@ -135,10 +110,8 @@
                         <td>{{ patient.contact }}</td>
                         <td>{{ patient.MRI }}</td>
                         <td>
-                            <form method="post" action="{% url 'transfer_patient_action' patient.id hosp.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-primary">Transfer</button>
-                            </form>
+                            <button><a href="{% url 'transfer_patient'  hsp.id patient.id %}" style="color:white;text-decoration: none;">Transfer</a></button>
+                        
                         </td>
                     </tr>
                     {% endfor %}
@@ -151,6 +124,5 @@
     <footer>
         <p></p>
     </footer>
->>>>>>> 3b5c9fc9172e803c45b575dd4a408735bbfb5bcb
 </body>
 </html>

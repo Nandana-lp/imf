@@ -16,7 +16,7 @@ urlpatterns = [
     path('search_doc', views.search_doctor, name='search_doctor'),
 
     path('patient_appointment/<int:id>', views.patient_appointment, name='patient_appointment'),
-    path('doctor_home', views.DoctorHome, name='doctor_home'),
+    path('DoctorHome', views.DoctorHome, name='DoctorHome'),
     path('edit_appointment/<int:appointment_id>', views.edit_appointment, name='edit_appointment'),
     path('cancel_appointment/<int:appointment_id>', views.cancel_appointment, name='cancel_appointment'),
     path('add_prescription/<int:appointment_id>/', views.add_prescription, name='add_prescription'),
@@ -24,9 +24,9 @@ urlpatterns = [
     
     path('search_hospital', views.search_hospital, name='search_hospital'),
     path('search_patient', views.search_patient, name='search_patient'),
-    path('transfer_patient/<int:hospital_id>/', views.transfer_patient, name='transfer_patient'),
-    path('transfer_patient_action/<int:patient_id>/<int:to_hospital_id>/', views.transfer_patient_action, name='transfer_patient_action'),
 
-
-
+    path('find_patient/<int:hsp_id>', views.find_patient, name='find_patient'),
+    path('transfer_patient/<int:id>/<int:patient_id>' , views.transfer_patient, name='transfer_patient'),
+    path('transferred_patients', views.transferred_patients, name='transferred_patients'),
+    path('transfer_view_patients',views.transfer_view_patients,name='transfer_view_patients')
 ]

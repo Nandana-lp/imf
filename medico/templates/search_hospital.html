@@ -107,7 +107,7 @@
                         <td>{{ hospital.district }}</td>
                         <td>{{ hospital.state }}</td>
                         <td>{{ hospital.contact }}</td>
-                        <td><button class="btn btn-primary"><a href="{% url 'transfer_patient' hospital.id %}">Transfer Patient</a></button></td>
+                        <td><button class="btn btn-primary"><a href="{% url 'find_patient' hospital.id %}">Transfer Patient</a></button></td>
                     </tr>
                     {% endfor %}
                 {% elif results is not None %}

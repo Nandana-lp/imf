@@ -6,12 +6,12 @@
     <title>View Prescription</title>
 </head>
 <body>
-    <h2>Prescription for {{ appointmnet.patient_id.patient_name }}</h2>
-    <p><strong>Doctor:</strong> {{ appointmnet.doctor_id.doctor_name }}</p>
-    <p><strong>Patient:</strong> {{ appointmnet.patient_id.patient_name }}</p>
-    <p><strong>Date:</strong> {{ appointmnet.date }}</p>
-    <p><strong>Time:</strong> {{ appointmnet.time }}</p>
+    <h2>Prescription for {{ appointment.patient_id.patient_name }}</h2>
+    <p><strong>Doctor:</strong> {{ appointment.doctor_id.doctor_name }}</p>
+    <p><strong>Patient:</strong> {{ appointment.patient_id.patient_name }}</p>
+    <p><strong>Date:</strong> {{ appointment.date }}</p>
+    <p><strong>Time:</strong> {{ appointment.time }}</p>
     <p><strong>Prescription:</strong></p>
-    <textarea readonly>{{ appointmnet.prescription }}</textarea>
+    <textarea readonly>{{ appointment.prescription }}</textarea>
 </body>
 </html>
