@@ -48,6 +48,7 @@
                                         <nav>
                                             <ul id="navigation">
                                                 <li><a href="index.html">home</a></li>
+                                                <li><a href="{% url 'edit_hospital' %}">Profile</a></li>
                                                 </li>
                                                 <li><a href="#">Patient Transfers<i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
@@ -60,17 +61,12 @@
                                                         </li>
                                                 </ul>
                                                 </li>
-                                                <!-- <li><a href="#">Register <i class="ti-angle-down"></i></a>
-                                                    <ul class="submenu">
-                                                        <li><a href="#">Hospital</a></li>
-                                                        <li><a href="#">Patient</a></li>
-                                                    </ul>
-                                                </li> -->
                                                 <li><a href="#">Hospital Management <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'AddDoctor' %}">Add Doctors</a></li>
                                                         <li><a href="{% url 'ViewDoctor' %}">View Doctors</a></li>
                                                         <li><a href="{%url 'search_patient' %}">Search Patients</a></li>
+                                                        <li><a href="{% url 'AddAmbulance' %}">Add Ambulance</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>

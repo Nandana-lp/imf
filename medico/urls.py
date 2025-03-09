@@ -28,5 +28,15 @@ urlpatterns = [
     path('find_patient/<int:hsp_id>', views.find_patient, name='find_patient'),
     path('transfer_patient/<int:id>/<int:patient_id>' , views.transfer_patient, name='transfer_patient'),
     path('transferred_patients', views.transferred_patients, name='transferred_patients'),
-    path('transfer_view_patients',views.transfer_view_patients,name='transfer_view_patients')
+    path('transfer_view_patients',views.transfer_view_patients,name='transfer_view_patients'),
+
+    path('AddAmbulance',views.AddAmbulance,name='AddAmbulance'),
+    path('AmbulanceHome',views.AmbulanceHome,name='AmbulanceHome'),
+
+    path('edit_ambulance', views.edit_ambulance,name='edit_ambulance'),
+    path('edit_hospital', views.edit_hospital,name='edit_hospital'),
+    path('edit_doctor', views.edit_doctor,name='edit_doctor'),
+    path('edit_patient', views.edit_patient,name='edit_patient'),
+
+
 ]

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import (
     HospitalForm, LoginForm, PatientForm, LoginCheckForm, 
-    DoctorForm, AppointmentForm, PrescriptionForm, MRIForm
+    DoctorForm, AppointmentForm, PrescriptionForm, MRForm, AmbulanceForm, LoginEditForm
 )
 from django.contrib import messages
-from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer
+from .models import Hospital ,Login ,Patient,Doctor,Appointment,PatientTransfer,Ambulance
 from django.db.models import Q
 
 def index(request):
@@ -101,6 +101,9 @@ def LoginCheck(request):
                    elif user.user_type =='doctor':
                     request.session['doctor_id'] = user.id
                     return redirect('DoctorHome')
+                   elif user.user_type=='ambulance':
+                    request.session['ambulance_id']=user.id
+                    return redirect('AmbulanceHome')
                 else:
                     messages.error(request, 'Invalid password')
             except Login.DoesNotExist:
@@ -214,8 +217,8 @@ def view_prescription(request, appointment_id):
 
 def search_patient(request):
     if request.method == 'POST':
-        query = request.POST.get('mri_number')
-        results = Patient.objects.filter(Q(MRI__icontains=query))
+        query = request.POST.get('mr_number')
+        results = Patient.objects.filter(Q(MR__icontains=query))
         return render(request, 'search_patient.html', {'results': results})
     else:
         return render(request, 'search_patient.html')
@@ -233,8 +236,8 @@ def search_hospital(request):
 def find_patient(request,hsp_id):
     if request.method == 'POST':
         hsp=get_object_or_404(Hospital,id=hsp_id)
-        query = request.POST.get('mri_number')
-        results = Patient.objects.filter(Q(MRI__icontains=query))
+        query = request.POST.get('mr_number')
+        results = Patient.objects.filter(Q(MR__icontains=query))
         return render(request, 'find_patient.html', {'results': results,'hsp':hsp})
     else:
         return render(request, 'find_patient.html')
@@ -248,8 +251,7 @@ def transfer_patient(request,id,patient_id):
     PatientTransfer.objects.create(
         patient=patient,
         to_hospital=to_hospital,
-        from_hospital=from_hsp
-        
+        from_hospital=from_hsp   
     )
     messages.success(request, "Patient transferred successfully!")
     return redirect('transferred_patients') 
@@ -266,3 +268,96 @@ def transfer_view_patients(request):
     transfers = PatientTransfer.objects.filter(to_hospital=id)
     return render(request, 'transfer_view.html', {'transfers': transfers})
 
+def AddAmbulance(request):
+    id = request.session['hospital_id']
+    user=get_object_or_404(Login, id = id)
+    hospital = get_object_or_404(Hospital, login_id = user)
+    if request.method == 'POST':
+        form = AmbulanceForm(request.POST)
+        login = LoginForm(request.POST)
+        if form.is_valid() and login.is_valid():
+            a = login.save(commit=False)
+            a.user_type = 'ambulance'
+            a.save()
+            ambulance = form.save(commit=False)
+            ambulance.hosp_id = hospital
+            ambulance.log_id = a
+            ambulance.save()
+            messages.success(request, 'Ambulance added successfully')
+            return redirect('HospitalHome')
+    else:
+        form = AmbulanceForm()
+        login = LoginForm()
+    return render(request, 'add_ambulance.html', {'form': form, 'login': login})
+
+def AmbulanceHome(request):
+    ambulance_id = request.session.get('ambulance_id')
+    return render(request, 'ambulancehome.html')
+
+def edit_ambulance(request):
+    id=request.session['ambulance_id']
+    user=get_object_or_404(Login,id=id)
+    ambulance=get_object_or_404(Ambulance,log_id=user)
+    if request.method=='POST':
+        login=LoginEditForm(request.POST,instance=user)
+        form=AmbulanceForm(request.POST,instance=ambulance)
+        if form.is_valid() and login.is_valid():
+            form.save()
+            login.save()
+            messages.success(request,"Profile updated successfully")
+            return redirect('AmbulanceHome')
+    else:
+        login=LoginEditForm(instance=user)
+        form=AmbulanceForm(instance=ambulance)
+    return render(request,'edit_profile.html',{'form':form, 'login':login})
+
+def edit_hospital(request):
+    id=request.session['hospital_id']
+    user=get_object_or_404(Login,id=id)
+    hospital=get_object_or_404(Hospital,login_id=user)
+    if request.method=='POST':
+        login=LoginEditForm(request.POST,instance=user)
+        form=HospitalForm(request.POST,instance=hospital)
+        if form.is_valid() and login.is_valid():
+            form.save()
+            login.save()
+            messages.success(request,"Profile updated successfully")
+            return redirect('HospitalHome')
+    else:
+        login=LoginEditForm(instance=user)
+        form=HospitalForm(instance=hospital)
+    return render(request,'edit_profile.html',{'form':form, 'login':login})
+
+def edit_doctor(request):
+    id=request.session['doctor_id']
+    user=get_object_or_404(Login,id=id)
+    doctor=get_object_or_404(Doctor,login_id=user)
+    if request.method=='POST':
+        login=LoginEditForm(request.POST,instance=user)
+        form=DoctorForm(request.POST,instance=doctor)
+        if form.is_valid() and login.is_valid():
+            form.save()
+            login.save()
+            messages.success(request,"Profile updated successfully")
+            return redirect('DoctorHome')
+    else:
+        login=LoginEditForm(instance=user)
+        form=DoctorForm(instance=doctor)
+    return render(request,'edit_profile.html',{'form':form, 'login':login})
+
+def edit_patient(request):
+    id=request.session['patient_id']
+    user=get_object_or_404(Login,id=id)
+    patient=get_object_or_404(Patient,login_id=user)
+    if request.method=='POST':
+        login=LoginEditForm(request.POST,instance=user)
+        form=PatientForm(request.POST,instance=patient)
+        if form.is_valid() and login.is_valid():
+            form.save()
+            login.save()
+            messages.success(request,"Profile updated successfully")
+            return redirect('PatientHome')
+    else:
+        login=LoginEditForm(instance=user)
+        form=PatientForm(instance=patient)
+    return render(request,'edit_profile.html',{'form':form, 'login':login})

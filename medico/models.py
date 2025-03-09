@@ -20,16 +20,16 @@ class Patient(models.Model):
     date_of_birth = models.CharField(max_length=15)
     contact = models.CharField(max_length=15)
     login_id = models.OneToOneField(Login, on_delete=models.CASCADE, null=True, blank=True,related_name='patient')
-    MRI = models.CharField(max_length=20, null=True)
+    MR = models.CharField(max_length=20, null=True)
     def save(self, *args, **kwargs):
-        if not self.MRI:
-            last_patient = Patient.objects.all().order_by('MRI').last()
+        if not self.MR:
+            last_patient = Patient.objects.all().order_by('MR').last()
             if last_patient:
-                last_number = int(last_patient.MRI.replace('MC', ''))
+                last_number = int(last_patient.MR.replace('MC', ''))
                 new_patient_id = f'MC{str(last_number + 1).zfill(4)}'
             else:
                 new_patient_id = 'MC0001'
-            self.MRI = new_patient_id
+            self.MR = new_patient_id
 
         super().save(*args, **kwargs)
 
@@ -41,6 +41,7 @@ class Doctor(models.Model):
     age=models.CharField(max_length=3)
     hospital_id=models.ForeignKey(Hospital,on_delete=models.CASCADE, null=True , blank=True, related_name='hospital_id')
     login_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='login_id')
+
 class Appointment(models.Model):
     date = models.CharField(max_length=15)
     time = models.CharField(max_length=15)
@@ -56,3 +57,11 @@ class PatientTransfer(models.Model):
     from_hospital = models.ForeignKey(Hospital, related_name='from_hospital', on_delete=models.CASCADE, null=True)
     to_hospital = models.ForeignKey(Hospital, related_name='to_hospital', on_delete=models.CASCADE)
 
+class Ambulance(models.Model):
+    ambulance_category = models.CharField(max_length=20)
+    vehicle_type= models.CharField(max_length=20)
+    vehicle_number = models.CharField(max_length=20)
+    driver_name= models.CharField(max_length=50) 
+    contact=models.CharField(max_length=10)
+    hosp_id=models.ForeignKey(Hospital,on_delete=models.CASCADE, null=True , blank=True, related_name='hosp_id')
+    log_id=models.ForeignKey(Login,on_delete=models.CASCADE, null=True , blank=True, related_name='log_id')

@@ -85,7 +85,7 @@
             <div class="search-bar">
                 <form method="post" action="">
                     {% csrf_token %}
-                    <input name="mri_number" type="text" placeholder="Enter MRI number">
+                    <input name="mr_number" type="text" placeholder="Enter MR number">
                     <input type="submit" value="Search Patients">
                 </form>
             </div>
@@ -98,7 +98,7 @@
                         <th>Gender</th>
                         <th>Date of Birth</th>
                         <th>Contact</th>
-                        <th>MRI</th>
+                        <th>MR Number</th>
                         <th>Action</th>
                     </tr>
                     {% for patient in results %}
@@ -108,9 +108,9 @@
                         <td>{{ patient.gender }}</td>
                         <td>{{ patient.date_of_birth }}</td>
                         <td>{{ patient.contact }}</td>
-                        <td>{{ patient.MRI }}</td>
+                        <td>{{ patient.MR }}</td>
                         <td>
-                            <button><a href="{% url 'transfer_patient'  hsp.id patient.id %}" style="color:white;text-decoration: none;">Transfer</a></button>
+                            <button class="btn btn-primary"><a href="{% url 'transfer_patient'  hsp.id patient.id %}">Transfer</a></button>
                         
                         </td>
                     </tr>

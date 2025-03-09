@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambulance Service Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f6f9;
+        }
+
+        .sidebar {
+            width: 200px;
+            background-color: #0778e8;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            position: fixed;
+            height: 100%;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            padding: 12px 25px;
+            margin: 10px 0;
+            background-color: transparent;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #0a72da;
+            transform: translateX(5px);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 30px;
+            flex: 1;
+            background-color: #ecf0f1;
+        }
+
+        header {
+            background-color: #0d76de;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+
+        .card p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .card a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #066ed5;
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f4f6f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Ambulance Services</h2>
+        <a href="{% url 'edit_ambulance' %}">Profile </a>
+        <a href="#fleet">Fleet Details</a>
+        <a href="#reports">Service Reports</a>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h2>Ambulance Services </h2>
+        </header>
+        <div class="card">
+            <h3>Ongoing Emergency Requests</h3>
+            <table>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

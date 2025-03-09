@@ -1,5 +1,5 @@
 from django import forms
-from .models import Login, Hospital, Patient, Doctor, Appointment
+from .models import Login, Hospital, Patient, Doctor, Appointment, Ambulance
 
 class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
@@ -66,5 +66,34 @@ class PrescriptionForm(forms.ModelForm):
             'prescription': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter prescription here...'}),
         }
 
-class MRIForm(forms.Form):
-    mri_number = forms.CharField(max_length=20, label='MRI Number', widget=forms.TextInput(attrs={'class': 'form-control'}))
+class MRForm(forms.Form):
+    mr_number = forms.CharField(max_length=20, label='MR Number', widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+category=[
+        ('Intensive Care Unit','Intensive Care Unit'),
+        ('Basic Life Support','Basic Life Support'),
+        ('Advanced Life Support','Advanced Life Support'),
+        ('Air Ambulance','Air Ambulance'),
+        ('Patient Transport','Patient Transport')
+    ]
+class AmbulanceForm(forms.ModelForm):
+    ambulance_category=forms.ChoiceField(choices=category)
+    class Meta:
+        model=Ambulance
+        fields=['ambulance_category','vehicle_type','vehicle_number','driver_name','contact']
+        widgets = {
+            'ambulance_category': forms.TextInput(attrs={'class': 'form-control'}),
+            'vehicle_type': forms.TextInput(attrs={'class': 'form-control'}),
+            'vehicle_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'driver_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
+class LoginEditForm(forms.ModelForm):
+     class Meta:
+        model = Login
+        fields = ['email']
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
